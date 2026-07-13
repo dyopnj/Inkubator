@@ -1,0 +1,19 @@
+# Node
+server/node_modules/
+server/data/
+server/package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+
+# ML outputs (generated)
+training_report.png
+training_report.txt
+model_comparison.txt
+dataset_preprocessed.csv
+temperature_humidity_data.csv
+
+# OS
+.DS_Store
+Thumbs.db

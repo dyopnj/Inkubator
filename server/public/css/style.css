@@ -1,0 +1,360 @@
+/* ===== ChickHub - Unified Design System ===== */
+/* Font tunggal: Montserrat di semua halaman */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+/* Khusus data-display pake JetBrains Mono */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+.filled-icon { font-variation-settings: 'FILL' 1; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #f7f9fb;
+    color: #191c1e;
+    min-height: 100vh;
+}
+
+/* ===== Sidebar ===== */
+.ch-sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #fff;
+    border-right: 1px solid rgba(211, 197, 173, 0.1);
+    box-shadow: 0 0 4px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    padding: 24px 16px;
+}
+.ch-sidebar .logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.ch-sidebar .logo-area img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    object-fit: cover;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.ch-sidebar .logo-area img:hover { transform: scale(1.1) rotate(5deg); }
+.ch-sidebar .logo-area h1 { font-size: 22px; font-weight: 700; color: #191c1e; }
+.ch-sidebar .logo-area p  { font-size: 11px; color: #4f4633; letter-spacing: 0.05em; font-weight: 600; }
+
+.ch-sidebar nav { flex: 1; }
+.ch-sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    margin: 0 8px;
+    border-radius: 8px;
+    color: #4f4633;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+}
+.ch-sidebar .nav-link:hover {
+    background: #eceef0;
+    color: #795900;
+}
+.ch-sidebar .nav-link.active {
+    background: #fbc02d;
+    color: #6c5000;
+}
+.ch-sidebar .nav-link.active .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+
+.ch-sidebar .status-card {
+    background: #eceef0;
+    padding: 8px;
+    border-radius: 12px;
+    margin-top: auto;
+}
+.ch-sidebar .status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+}
+
+/* ===== Main Content ===== */
+.ch-main {
+    margin-left: 280px;
+    min-height: 100vh;
+    padding: 32px;
+    position: relative;
+}
+
+/* ===== Top Bar ===== */
+.ch-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+/* ===== Cards ===== */
+.ch-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid rgba(211, 197, 173, 0.2);
+}
+.ch-card-kpi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: default;
+    transition: all 0.2s;
+}
+.ch-card-kpi:hover { border-color: rgba(121, 89, 0, 0.4); }
+
+/* ===== KPI Value ===== */
+.ch-kpi-value {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 44px;
+    color: #191c1e;
+}
+.ch-kpi-unit {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+}
+.ch-kpi-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #4f4633;
+    margin-bottom: 8px;
+}
+.ch-stat-value { font-size: 36px; font-weight: 700; line-height: 44px; }
+
+/* ===== Badge ===== */
+.ch-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.ch-badge-normal { background: #dae2fd; color: #5c647a; }
+.ch-badge-warning { background: #ffdad6; color: #93000a; }
+.ch-badge-active { background: rgba(251,192,45,0.3); color: #6c5000; }
+.ch-badge-auto  { background: #0a3; color: #fff; }
+.ch-badge-manual { background: #a30; color: #fff; }
+
+/* ===== Status Dot ===== */
+.ch-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+/* ===== Conn Status ===== */
+.ch-conn {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+.ch-conn-ok  { background: #0a3; color: #fff; }
+.ch-conn-err { background: #a33; color: #fff; }
+
+/* ===== Floating Panel ===== */
+.ch-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+    z-index: 60;
+    width: 260px;
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    border: 1px solid #d3c5ad;
+    padding: 16px;
+    text-align: left;
+    cursor: default;
+}
+
+/* ===== Bento Card ===== */
+.ch-bento {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.2s;
+}
+.ch-bento:hover { border-color: #fbc02d; }
+
+/* ===== Table ===== */
+.ch-table { width: 100%; border-collapse: collapse; }
+.ch-table th {
+    padding: 16px 24px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #4f4633;
+    background: #f2f4f6;
+    border-bottom: 1px solid #d3c5ad;
+    text-align: left;
+}
+.ch-table td {
+    padding: 16px 24px;
+    font-size: 14px;
+    border-bottom: 1px solid #e0e3e5;
+}
+.ch-table tr:hover td { background: #f8fafc; }
+
+/* ===== Filter Chip ===== */
+.ch-chip {
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #d3c5ad;
+    background: #f2f4f6;
+    color: #4f4633;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.ch-chip:hover { background: #e6e8ea; }
+.ch-chip.active { background: #795900; color: #fff; border-color: #795900; }
+
+/* ===== Toggle Switch ===== */
+.ch-toggle {
+    position: relative; display: inline-block;
+    width: 48px; height: 24px;
+}
+.ch-toggle input { opacity: 0; width: 0; height: 0; }
+.ch-toggle .slider {
+    position: absolute; cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #e2e8f0; transition: .3s; border-radius: 24px;
+}
+.ch-toggle .slider:before {
+    content: ""; position: absolute;
+    height: 18px; width: 18px;
+    left: 3px; bottom: 3px;
+    background: #fff; transition: .3s; border-radius: 50%;
+}
+.ch-toggle input:checked + .slider { background: #fbc02d; }
+.ch-toggle input:checked + .slider:before { transform: translateX(24px); }
+
+/* ===== Progress Bar ===== */
+.ch-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: #eceef0;
+    overflow: hidden;
+}
+.ch-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.5s;
+}
+
+/* ===== Button ===== */
+.ch-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.ch-btn-primary { background: #fbc02d; color: #6c5000; }
+.ch-btn-primary:hover { opacity: 0.9; }
+.ch-btn-outline { background: transparent; border: 1px solid #817661; color: #191c1e; }
+.ch-btn-outline:hover { background: #eceef0; }
+
+/* ===== Input ===== */
+.ch-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: #f2f4f6;
+    border: 1px solid #d3c5ad;
+    border-radius: 250px !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #191c1e;
+    outline: none;
+    transition: all 0.2s;
+}
+.ch-input:focus { border-color: #fbc02d; box-shadow: 0 0 0 2px rgba(251,192,45,0.2); }
+
+/* ===== Data Display (mono) ===== */
+.ch-data {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+}
+
+/* ===== Login ===== */
+.ch-login-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f7f9fb 0%, #e0e3e5 100%);
+}
+.ch-login-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+/* ===== Scrollbar ===== */
+.ch-scroll::-webkit-scrollbar { width: 4px; }
+.ch-scroll::-webkit-scrollbar-track { background: #f1f1f1; }
+.ch-scroll::-webkit-scrollbar-thumb { background: #d3c5ad; border-radius: 4px; }
+
+/* ===== Grid helpers ===== */
+.ch-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.ch-grid-12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+.ch-col-span-12 { grid-column: span 12; }
+.ch-col-span-8  { grid-column: span 8; }
+.ch-col-span-7  { grid-column: span 7; }
+.ch-col-span-6  { grid-column: span 6; }
+.ch-col-span-5  { grid-column: span 5; }
+.ch-col-span-4  { grid-column: span 4; }
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .ch-sidebar { width: 64px; }
+    .ch-sidebar .logo-area h1,
+    .ch-sidebar .logo-area p,
+    .ch-sidebar .nav-link span:not(.material-symbols-outlined),
+    .ch-sidebar .status-card { display: none; }
+    .ch-sidebar .logo-area img { width: 40px; height: 40px; }
+    .ch-sidebar .nav-link { margin: 0; padding: 12px; justify-content: center; }
+    .ch-main { margin-left: 64px; padding: 16px; }
+    .ch-grid-5 { grid-template-columns: repeat(2, 1fr); }
+}

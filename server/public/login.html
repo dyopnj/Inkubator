@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html class="light" lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChickHub - Login</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F423;</text></svg>">
+<link rel="stylesheet" href="css/style.css?v=4">
+</head>
+<body>
+<div class="ch-login-wrap">
+  <div class="ch-login-card">
+    <div style="text-align:center;margin-bottom:24px;">
+      <svg viewBox="0 0 100 100" width="72" height="72" style="margin:0 auto 12px;display:block;"><circle cx="50" cy="55" r="35" fill="#fbc02d" opacity=".2"/><text x="50" y="72" font-size="60" text-anchor="middle">&#x1F423;</text></svg>
+      <h1 style="font-size:22px;font-weight:700;">ChickHub</h1>
+      <p style="font-size:14px;color:#4f4633;">Smart Egg Incubator</p>
+    </div>
+    <form onsubmit="handleSubmit(event)">
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px;font-weight:600;color:#4f4633;display:block;margin-bottom:4px;">Username</label>
+        <input id="loginUser" class="ch-input" type="text" placeholder="admin">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px;font-weight:600;color:#4f4633;display:block;margin-bottom:4px;">Password</label>
+        <input id="loginPass" class="ch-input" type="password" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;">
+      </div>
+      <div id="loginError" style="color:#ba1a1a;font-size:14px;margin-bottom:12px;text-align:center;"></div>
+      <button type="submit" class="ch-btn ch-btn-primary" id="submitBtn" style="width:100%;padding:12px;font-size:14px;">Masuk</button>
+      <p style="text-align:center;font-size:12px;color:#4f4633;margin-top:12px;">
+        <span id="toggleText">Belum punya akun?</span>
+        <a href="#" id="toggleLink" onclick="toggleMode();return false;" style="color:#795900;font-weight:700;text-decoration:underline;">Daftar</a>
+      </p>
+    </form>
+  </div>
+</div>
+<script src="js/utils.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{if(storeGet('user',null))window.location.href='index.html';});
+let isRegister = false;
+
+function toggleMode() {
+    isRegister = !isRegister;
+    document.getElementById('submitBtn').textContent = isRegister ? 'Daftar' : 'Masuk';
+    document.getElementById('toggleText').textContent = isRegister ? 'Sudah punya akun?' : 'Belum punya akun?';
+    document.getElementById('toggleLink').textContent = isRegister ? 'Masuk' : 'Daftar';
+    document.getElementById('loginError').textContent = '';
+}
+
+async function handleSubmit(e) {
+    e.preventDefault();
+    const u = document.getElementById('loginUser').value.trim();
+    const p = document.getElementById('loginPass').value.trim();
+    const err = document.getElementById('loginError');
+    if (!u || !p) { err.textContent = 'Isi username dan password.'; return; }
+
+    const endpoint = isRegister ? '/api/register' : '/api/login';
+    try {
+        const r = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: u, password: p })
+        });
+        const d = await r.json();
+        if (d.ok) {
+            if (isRegister) {
+                // Auto-login after register
+                isRegister = false;
+                document.getElementById('submitBtn').textContent = 'Masuk';
+                document.getElementById('toggleText').textContent = 'Belum punya akun?';
+                document.getElementById('toggleLink').textContent = 'Daftar';
+            }
+            storeSet('user', { username: d.username, loggedIn: true, time: Date.now() });
+            window.location.href = 'index.html';
+        } else {
+            err.textContent = d.error || 'Gagal.';
+        }
+    } catch (e) {
+        err.textContent = 'Gagal terhubung ke server.';
+    }
+}
+</script>
+</body>
+</html>

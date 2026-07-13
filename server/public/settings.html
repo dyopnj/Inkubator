@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html class="light" lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChickHub - Settings</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F423;</text></svg>">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="stylesheet" href="css/style.css?v=4">
+<script>tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#795900","primary-container":"#fbc02d","on-primary":"#ffffff","on-primary-container":"#6c5000","primary-fixed":"#ffdfa0","primary-fixed-dim":"#f8bd2a","on-primary-fixed":"#261a00","on-primary-fixed-variant":"#5c4300","secondary":"#565e74","secondary-container":"#dae2fd","on-secondary":"#ffffff","on-secondary-container":"#5c647a","secondary-fixed":"#dae2fd","secondary-fixed-dim":"#bec6e0","on-secondary-fixed":"#131b2e","on-secondary-fixed-variant":"#3f465c","error":"#ba1a1a","error-container":"#ffdad6","on-error":"#ffffff","on-error-container":"#93000a","surface":"#f7f9fb","surface-dim":"#d8dadc","surface-bright":"#f7f9fb","surface-container-lowest":"#ffffff","surface-container-low":"#f2f4f6","surface-container":"#eceef0","surface-container-high":"#e6e8ea","surface-container-highest":"#e0e3e5","on-surface":"#191c1e","on-surface-variant":"#4f4633","outline":"#817661","outline-variant":"#d3c5ad","background":"#f7f9fb"},fontFamily:{sans:["Montserrat"],mono:["JetBrains Mono"]}}}};</script>
+</head>
+<body>
+<!-- ===== Sidebar ===== -->
+<aside class="ch-sidebar">
+  <div class="logo-area">
+    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Ee39MEsvA15lePOkJS7B7nJcOclUjWl2ilDdI1e6EmhiYcnQOFmC4l2JN55NPvCshZHK7qaXQtScPT8Jp33eQ7VU9dNNSFZ4a1B9DdQFoRki27KSedbthY12_f-HIJNEi1ruTF0eN_ChQADyZImm99h3lDBqzRiqdogDa02UH00dfA-0sffCinUEuAGkEx69axdJ1Tkisnw_cWCuSkGUGsJXb0ZqFZW-jq8p2g3wE-yuS1p5dldhbxVszOSrRxcoy3J6p4ZxVHzH" alt="ChickHub">
+    <h1>ChickHub</h1>
+    <p>Smart Egg Incubator</p>
+  </div>
+  <nav>
+    <a class="nav-link" href="index.html">
+      <span class="material-symbols-outlined">home</span>
+      <span>Home</span>
+    </a>
+    <a class="nav-link" href="history.html">
+      <span class="material-symbols-outlined">history</span>
+      <span>History</span>
+    </a>
+    <a class="nav-link active" href="settings.html">
+      <span class="material-symbols-outlined filled-icon">settings</span>
+      <span>Settings</span>
+    </a>
+  </nav>
+  <div class="status-card">
+    <div class="status-item">
+      <span class="material-symbols-outlined filled-icon" style="color:#565e74;font-size:16px;">fiber_manual_record</span>
+      <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#4f4633;">System</div><div id="systemStatus" style="font-size:14px;color:#565e74;">—</div></div>
+    </div>
+    <div class="status-item">
+      <span class="material-symbols-outlined" style="color:#795900;font-size:16px;">wifi</span>
+      <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#4f4633;">Connection</div><div><span id="connStatus" class="ch-conn ch-conn-err">offline</span></div></div>
+    </div>
+  </div>
+  <div style="margin-top:8px;padding-top:8px;border-top:1px solid #d3c5ad;">
+    <a class="nav-link" href="#" onclick="event.preventDefault();handleLogout()" style="cursor:pointer;">
+      <span class="material-symbols-outlined">logout</span>
+      <span>Logout</span>
+    </a>
+  </div>
+</aside>
+
+<!-- ===== Main ===== -->
+<main class="ch-main" style="padding:24px 32px;">
+  <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h2 style="font-size:28px;font-weight:700;color:#795900;">Settings</h2>
+      <p style="font-size:14px;color:#4f4633;">Manage your account and device preferences.</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="material-symbols-outlined" style="cursor:pointer;padding:8px;border-radius:50%;background:#eceef0;" onclick="window.location.href='index.html'">home</span>
+      <span style="font-size:12px;color:#4f4633;" id="connText">Offline</span>
+    </div>
+  </header>
+
+  <div class="ch-grid-12">
+    <!-- Profile -->
+    <div class="ch-col-span-8 ch-bento" style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div style="position:relative;">
+        <img id="mainProfileAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkB1MyTNuAP7kz7F6ZFTqpL8ki3XBumOzgKhM4gyB1iq3SaTP4TQXPFAmEx4D-65l1_Y3FGOE-JHJJbWVyoQfR9uER5g_Y02lSFWrF5T9TAfdGQbct5MoxLR93m5S0yal306p4-DJwDu2_Am5Ek96LksnzOsIzJSWeMvrxb1_htXs1KIPVf-k3S5DiuHRIOSyBjjWw0C3IU1XPNI0vVaVHaDjLFybepkbaZa65iYBM_lwCMZ3CRhN1Vd7s7zAw2p7mAH0zbqQV46jo" alt="Profile" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        <button style="position:absolute;bottom:0;right:0;background:#fbc02d;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="font-size:16px;">photo_camera</span></button>
+      </div>
+      <div style="flex:1;">
+        <h3 style="font-size:20px;font-weight:700;" id="profileName"></h3>
+        <p style="font-size:14px;color:#4f4633;" id="profileEmail"></p>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+          <button class="ch-btn ch-btn-primary" onclick="editProfile()" style="display:flex;align-items:center;gap:4px;text-transform:none;"><span class="material-symbols-outlined" style="font-size:16px;">edit</span> Edit Profile</button>
+          <button class="ch-btn ch-btn-outline" onclick="alert('Fitur security dalam pengembangan.')">Security</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Theme -->
+    <div class="ch-col-span-4 ch-bento" style="display:flex;flex-direction:column;justify-content:space-between;">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#4f4633;">Interface</span>
+          <span class="material-symbols-outlined" style="color:#795900;">palette</span>
+        </div>
+        <h3 style="font-size:20px;font-weight:600;margin-bottom:4px;">Mode Tampilan</h3>
+        <p style="font-size:14px;color:#4f4633;">Light / Dark mode.</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;background:#f2f4f6;padding:12px;border-radius:8px;margin-top:16px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="material-symbols-outlined" style="color:#795900;" id="theme-icon">light_mode</span>
+          <span style="font-weight:600;font-size:14px;" id="theme-label">Light Mode</span>
+        </div>
+        <label class="ch-toggle"><input id="theme-toggle" type="checkbox"><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Language -->
+    <div class="ch-col-span-5 ch-bento">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <span class="material-symbols-outlined" style="color:#795900;">language</span>
+        <h3 style="font-size:20px;font-weight:600;">Preferensi Bahasa</h3>
+      </div>
+      <label style="display:flex;align-items:center;padding:12px;border:1px solid #795900;background:rgba(121,89,0,0.05);border-radius:8px;cursor:pointer;margin-bottom:6px;">
+        <input checked type="radio" name="lang" value="id" style="width:16px;height:16px;accent-color:#795900;">
+        <span style="margin-left:12px;flex:1;font-weight:600;">Bahasa Indonesia</span>
+        <span class="ch-badge ch-badge-active">Active</span>
+      </label>
+      <label style="display:flex;align-items:center;padding:12px;border:1px solid #d3c5ad;border-radius:8px;cursor:pointer;">
+        <input type="radio" name="lang" value="en" style="width:16px;height:16px;accent-color:#795900;">
+        <span style="margin-left:12px;flex:1;font-weight:600;">English</span>
+        <span style="font-size:12px;color:#4f4633;">Global</span>
+      </label>
+    </div>
+
+    <!-- Device Settings -->
+    <div class="ch-col-span-7 ch-bento" style="position:relative;overflow:hidden;">
+      <div style="position:absolute;right:-20px;bottom:-20px;opacity:.08;">
+        <span class="material-symbols-outlined" style="font-size:100px;">precision_manufacturing</span>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <div><h3 style="font-size:20px;font-weight:600;">Pengaturan Perangkat</h3><p style="font-size:14px;color:#4f4633;">IoT module configuration.</p></div>
+          <span class="ch-badge ch-badge-active" id="deviceStatus">Connected</span>
+        </div>
+
+        <!-- MQTT -->
+        <div style="background:#f2f4f6;padding:12px;border-radius:8px;margin-bottom:16px;">
+          <h4 style="font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:16px;color:#795900;">settings_ethernet</span> Koneksi MQTT</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div><span style="font-size:10px;color:#4f4633;">Broker</span><input id="mqttHost" class="ch-input" value="192.168.254.130"></div>
+            <div><span style="font-size:10px;color:#4f4633;">Port</span><input id="mqttPort" class="ch-input" value="1883"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+            <div><span style="font-size:10px;color:#4f4633;">WS Port</span><input id="mqttWsPort" class="ch-input" value="9001"></div>
+            <div><span style="font-size:10px;color:#4f4633;">Status</span><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fff;border:1px solid #d3c5ad;border-radius:8px;"><span style="width:8px;height:8px;border-radius:50%;background:rgba(251,192,45,0.5);" id="mqttIndicator"></span><span id="mqttStatusText" style="font-size:14px;">Disconnected</span></div></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div><span style="font-size:10px;color:#4f4633;">Nama Perangkat</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:#fff;border:1px solid #d3c5ad;border-radius:8px;font-size:14px;">
+              <span class="ch-data" id="deviceName">ESP32-Incubator-01</span>
+              <span class="material-symbols-outlined" style="font-size:16px;cursor:pointer;color:#4f4633;" id="deviceNameEdit">edit</span>
+            </div>
+          </div>
+          <div><span style="font-size:10px;color:#4f4633;">Uptime</span>
+            <div style="display:flex;align-items:center;gap:8px;padding:10px;background:#fff;border:1px solid #d3c5ad;border-radius:8px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:rgba(251,192,45,0.5);"></span>
+              <span class="ch-data" id="uptimeDisplay">99.98%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PID Defaults -->
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid #d3c5ad;">
+          <h4 style="font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:16px;color:#795900;">tune</span> PID Defaults</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><span style="font-size:10px;font-weight:700;color:#795900;">Heater</span>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px;">
+                <div><span style="font-size:9px;color:#4f4633;">Kp</span><input class="ch-input" id="pidHKp" value="8.0" step="0.5"></div>
+                <div><span style="font-size:9px;color:#4f4633;">Ki</span><input class="ch-input" id="pidHKi" value="0.5" step="0.1"></div>
+                <div><span style="font-size:9px;color:#4f4633;">Kd</span><input class="ch-input" id="pidHKd" value="2.0" step="0.5"></div>
+                <div><span style="font-size:9px;color:#4f4633;">SP °C</span><input class="ch-input" id="pidHSp" value="37.5" step="0.5"></div>
+              </div>
+            </div>
+            <div><span style="font-size:10px;font-weight:700;color:#565e74;">Fan</span>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px;">
+                <div><span style="font-size:9px;color:#4f4633;">Kp</span><input class="ch-input" id="pidFKp" value="6.0" step="0.5"></div>
+                <div><span style="font-size:9px;color:#4f4633;">Ki</span><input class="ch-input" id="pidFKi" value="0.3" step="0.1"></div>
+                <div><span style="font-size:9px;color:#4f4633;">Kd</span><input class="ch-input" id="pidFKd" value="1.5" step="0.5"></div>
+                <div><span style="font-size:9px;color:#4f4633;">SP %</span><input class="ch-input" id="pidFSp" value="60.0" step="0.5"></div>
+              </div>
+            </div>
+          </div>
+          <button class="ch-btn ch-btn-primary" style="margin-top:8px;" onclick="savePID()">Simpan PID Defaults</button>
+        </div>
+
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid #d3c5ad;display:flex;justify-content:space-between;align-items:center;">
+          <span style="display:flex;align-items:center;gap:6px;font-size:14px;color:#4f4633;"><span class="material-symbols-outlined">wifi</span> Signal: <span id="signalStrength">—</span></span>
+          <button style="color:#795900;font-size:12px;font-weight:700;background:none;border:none;cursor:pointer;text-decoration:underline;" onclick="rebootDevice()">Reboot Device</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="ch-col-span-12 ch-bento" style="text-align:center;">
+      <p style="font-size:14px;color:#4f4633;"><strong style="color:#795900;">ChickHub</strong> Dibuat Oleh Dyo, Syafiq, dan Zidan, dibuat sepenuh hati &middot; <a href="#" style="color:#795900;text-decoration:underline;">Dokumentasi</a></p>
+    </div>
+  </div>
+</main>
+
+<!-- ===== Modal Edit Profile ===== -->
+<div id="profileModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;" onclick="if(event.target===this)closeProfileModal()">
+  <div style="background:#fff;border-radius:16px;padding:32px;width:90%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <h3 style="font-size:22px;font-weight:700;">Edit Profil</h3>
+      <button onclick="closeProfileModal()" style="border:none;background:none;cursor:pointer;font-size:24px;color:#4f4633;">&times;</button>
+    </div>
+
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="position:relative;display:inline-block;">
+        <img id="profileAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkB1MyTNuAP7kz7F6ZFTqpL8ki3XBumOzgKhM4gyB1iq3SaTP4TQXPFAmEx4D-65l1_Y3FGOE-JHJJbWVyoQfR9uER5g_Y02lSFWrF5T9TAfdGQbct5MoxLR93m5S0yal306p4-DJwDu2_Am5Ek96LksnzOsIzJSWeMvrxb1_htXs1KIPVf-k3S5DiuHRIOSyBjjWw0C3IU1XPNI0vVaVHaDjLFybepkbaZa65iYBM_lwCMZ3CRhN1Vd7s7zAw2p7mAH0zbqQV46jo" alt="Avatar" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+        <button onclick="document.getElementById('avatarInput').click()" style="position:absolute;bottom:0;right:0;background:#fbc02d;border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+          <span class="material-symbols-outlined" style="font-size:16px;color:#6c5000;">photo_camera</span>
+        </button>
+        <input id="avatarInput" type="file" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <label style="font-size:12px;font-weight:600;color:#4f4633;display:block;margin-bottom:4px;">Nama Tampilan</label>
+      <input id="editDisplayName" class="ch-input" type="text" placeholder="Nama kamu" style="border-radius:12px!important;">
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <label style="font-size:12px;font-weight:600;color:#4f4633;display:block;margin-bottom:4px;">Username</label>
+      <input id="editUsername" class="ch-input" type="text" readonly style="background:#eceef0;cursor:not-allowed;border-radius:12px!important;">
+    </div>
+
+    <div style="border-top:1px solid #d3c5ad;padding-top:16px;margin-bottom:16px;">
+      <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;color:#795900;">Ganti Password</h4>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;font-weight:600;color:#4f4633;display:block;margin-bottom:4px;">Password Saat Ini</label>
+        <input id="editCurPass" class="ch-input" type="password" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;" style="border-radius:12px!important;">
+      </div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;font-weight:600;color:#4f4633;display:block;margin-bottom:4px;">Password Baru</label>
+        <input id="editNewPass" class="ch-input" type="password" placeholder="Minimal 4 karakter" style="border-radius:12px!important;">
+      </div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;font-weight:600;color:#4f4633;display:block;margin-bottom:4px;">Konfirmasi Password Baru</label>
+        <input id="editConfirmPass" class="ch-input" type="password" placeholder="Ketik ulang password baru" style="border-radius:12px!important;">
+      </div>
+    </div>
+
+    <div id="profileError" style="color:#ba1a1a;font-size:14px;margin-bottom:12px;text-align:center;"></div>
+    <div id="profileSuccess" style="color:#0a3;font-size:14px;margin-bottom:12px;text-align:center;"></div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="ch-btn ch-btn-outline" onclick="closeProfileModal()" style="flex:1;padding:12px;">Batal</button>
+      <button class="ch-btn ch-btn-primary" onclick="saveProfile()" style="flex:1;padding:12px;font-size:14px;">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Crop Modal ===== -->
+<div id="cropModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;" onclick="if(event.target===this)closeCropModal()">
+  <div style="background:#fff;border-radius:16px;padding:24px;width:90%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="font-size:18px;font-weight:700;">Atur Foto</h3>
+      <button onclick="closeCropModal()" style="border:none;background:none;cursor:pointer;font-size:20px;color:#4f4633;">&times;</button>
+    </div>
+    <div style="position:relative;width:100%;height:260px;overflow:hidden;border-radius:12px;background:#eceef0;margin-bottom:16px;" id="cropContainer">
+      <img id="cropImage" src="" alt="Crop" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(1);max-width:none;cursor:grab;">
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <span class="material-symbols-outlined" style="font-size:18px;color:#4f4633;">zoom_out</span>
+      <input type="range" id="zoomSlider" min="1" max="3" step="0.1" value="1" style="flex:1;accent-color:#795900;" oninput="updateZoom(this.value)">
+      <span class="material-symbols-outlined" style="font-size:18px;color:#4f4633;">zoom_in</span>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="ch-btn ch-btn-outline" onclick="closeCropModal()" style="flex:1;padding:10px;">Batal</button>
+      <button class="ch-btn ch-btn-primary" onclick="applyCrop()" style="flex:1;padding:10px;">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/mqtt-client.js"></script>
+<script src="js/app.js"></script>
+<script>
+let cropFile = null, cropX = 0, cropY = 0, cropZoom = 1;
+let isDragging = false, dragStartX, dragStartY;
+
+function handleAvatarUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    cropFile = file;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        const img = document.getElementById('cropImage');
+        img.src = ev.target.result;
+        img.onload = () => {
+            cropX = 0; cropY = 0; cropZoom = 1;
+            document.getElementById('zoomSlider').value = 1;
+            updateZoom(1);
+            document.getElementById('cropModal').style.display = 'flex';
+        };
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+}
+
+function updateZoom(val) {
+    cropZoom = parseFloat(val);
+    const img = document.getElementById('cropImage');
+    img.style.transform = `translate(calc(-50% + ${cropX}px), calc(-50% + ${cropY}px)) scale(${cropZoom})`;
+}
+
+function closeCropModal() {
+    document.getElementById('cropModal').style.display = 'none';
+    cropFile = null;
+}
+
+function applyCrop() {
+    const img = document.getElementById('cropImage');
+    const container = document.getElementById('cropContainer');
+    const canvas = document.createElement('canvas');
+    const cw = container.clientWidth, ch = container.clientHeight;
+    const cropSize = Math.min(cw, ch);
+    canvas.width = cropSize; canvas.height = cropSize;
+    const ctx = canvas.getContext('2d');
+    const sx = (cw - cropSize) / 2, sy = (ch - cropSize) / 2;
+    ctx.drawImage(img, sx, sy, cropSize, cropSize, 0, 0, cropSize, cropSize);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+    document.getElementById('profileAvatar').src = dataUrl;
+    const mainAvatar = document.querySelector('#mainProfileAvatar');
+    if (mainAvatar) mainAvatar.src = dataUrl;
+    storeSet('avatar', dataUrl);
+    closeCropModal();
+}
+
+// Drag & zoom init
+document.addEventListener('DOMContentLoaded', () => {
+    const img = document.getElementById('cropImage');
+    const container = document.getElementById('cropContainer');
+    if (!container || !img) return;
+
+    container.addEventListener('mousedown', (e) => {
+        if (e.target !== img) return;
+        isDragging = true;
+        dragStartX = e.clientX - cropX; dragStartY = e.clientY - cropY;
+        img.style.cursor = 'grabbing';
+    });
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        cropX = e.clientX - dragStartX; cropY = e.clientY - dragStartY;
+        updateZoom(cropZoom);
+    });
+    document.addEventListener('mouseup', () => { if (isDragging) { isDragging = false; img.style.cursor = 'grab'; } });
+
+    container.addEventListener('touchstart', (e) => {
+        const t = e.touches[0]; if (t.target !== img) return;
+        isDragging = true; dragStartX = t.clientX - cropX; dragStartY = t.clientY - cropY;
+    }, { passive: true });
+    document.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const t = e.touches[0]; cropX = t.clientX - dragStartX; cropY = t.clientY - dragStartY;
+        updateZoom(cropZoom);
+    }, { passive: true });
+    document.addEventListener('touchend', () => { isDragging = false; }, { passive: true });
+});
+
+function openProfileModal() {
+    const user = storeGet('user', {});
+    const name = storeGet('displayName', user.username || 'User');
+    const avatar = storeGet('avatar', null);
+    document.getElementById('editDisplayName').value = name;
+    document.getElementById('editUsername').value = user.username || '';
+    document.getElementById('editCurPass').value = '';
+    document.getElementById('editNewPass').value = '';
+    document.getElementById('editConfirmPass').value = '';
+    document.getElementById('profileError').textContent = '';
+    document.getElementById('profileSuccess').textContent = '';
+    // Load saved avatar
+    if (avatar) document.getElementById('profileAvatar').src = avatar;
+    document.getElementById('profileModal').style.display = 'flex';
+}
+
+function closeProfileModal() {
+    document.getElementById('profileModal').style.display = 'none';
+}
+
+async function saveProfile() {
+    const user = storeGet('user', {});
+    const displayName = document.getElementById('editDisplayName').value.trim();
+    const curPass = document.getElementById('editCurPass').value;
+    const newPass = document.getElementById('editNewPass').value;
+    const confirmPass = document.getElementById('editConfirmPass').value;
+    const errEl = document.getElementById('profileError');
+    const sucEl = document.getElementById('profileSuccess');
+    errEl.textContent = '';
+    sucEl.textContent = '';
+
+    if (!displayName) { errEl.textContent = 'Nama tampilan tidak boleh kosong.'; return; }
+
+    // Validate password change
+    if (newPass || confirmPass || curPass) {
+        if (!curPass) { errEl.textContent = 'Masukkan password saat ini untuk mengganti password.'; return; }
+        if (newPass.length < 4) { errEl.textContent = 'Password baru minimal 4 karakter.'; return; }
+        if (newPass !== confirmPass) { errEl.textContent = 'Password baru dan konfirmasi tidak sama.'; return; }
+    }
+
+    try {
+        const body = { username: user.username, displayName };
+        if (newPass) { body.currentPassword = curPass; body.newPassword = newPass; }
+
+        const r = await fetch('/api/profile/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        const d = await r.json();
+        if (d.ok) {
+            storeSet('displayName', displayName);
+            document.getElementById('profileName').textContent = displayName;
+            if (newPass) sucEl.textContent = 'Profil dan password berhasil diperbarui!';
+            else sucEl.textContent = 'Profil berhasil diperbarui!';
+            setTimeout(closeProfileModal, 1500);
+        } else {
+            errEl.textContent = d.error || 'Gagal menyimpan.';
+        }
+    } catch (e) {
+        errEl.textContent = 'Gagal terhubung ke server.';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initSettings();
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    const user = storeGet('user', {});
+    const name = storeGet('displayName', user.username || 'User');
+    const avatar = storeGet('avatar', null);
+    document.getElementById('profileName').textContent = name;
+    document.getElementById('profileEmail').textContent = (user.username || 'user') + '@chickhub.local';
+    if (avatar) {
+        document.getElementById('mainProfileAvatar').src = avatar;
+        document.getElementById('profileAvatar').src = avatar;
+    }
+
+    const savedPid = storeGet('pidDefaults', null);
+    if (savedPid) { Object.keys(savedPid).forEach(k => { const el = document.getElementById('pid'+k.charAt(0).toUpperCase()+k.slice(1)); if(el) el.value = savedPid[k]; }); }
+    const mqttSaved = storeGet('mqttSettings', null);
+    if (mqttSaved) { if(mqttSaved.host) document.getElementById('mqttHost').value = mqttSaved.host; if(mqttSaved.port) document.getElementById('mqttPort').value = mqttSaved.port; if(mqttSaved.wsPort) document.getElementById('mqttWsPort').value = mqttSaved.wsPort; }
+
+    ChickMQTT.onConnection((c) => {
+        document.getElementById('connText').textContent = c ? 'Connected' : 'Offline';
+        document.getElementById('mqttStatusText').textContent = c ? 'Connected' : 'Disconnected';
+        document.getElementById('mqttIndicator').style.background = c ? '#0a3' : '#a33';
+    });
+
+    ['mqttHost','mqttPort','mqttWsPort'].forEach(id => { document.getElementById(id).addEventListener('change', saveMQTT); });
+    document.getElementById('deviceNameEdit').addEventListener('click', () => { /* keep using prompt for now */ });
+});
+
+function editProfile() { openProfileModal(); }
+
+function savePID() {
+    const pid = { h_kp: parseFloat(document.getElementById('pidHKp').value)||8, h_ki: parseFloat(document.getElementById('pidHKi').value)||.5, h_kd: parseFloat(document.getElementById('pidHKd').value)||2, h_sp: parseFloat(document.getElementById('pidHSp').value)||37.5, f_kp: parseFloat(document.getElementById('pidFKp').value)||6, f_ki: parseFloat(document.getElementById('pidFKi').value)||.3, f_kd: parseFloat(document.getElementById('pidFKd').value)||1.5, f_sp: parseFloat(document.getElementById('pidFSp').value)||60 };
+    storeSet('pidDefaults', pid);
+    alert('PID defaults tersimpan!');
+}
+
+function saveMQTT() { storeSet('mqttSettings', { host: document.getElementById('mqttHost').value, port: document.getElementById('mqttPort').value, wsPort: document.getElementById('mqttWsPort').value }); }
+
+function rebootDevice() {
+    if (confirm('Yakin ingin me-reboot perangkat ESP32?')) {
+        ChickMQTT.setParam('reboot', 1);
+        alert('Perintah reboot terkirim!');
+    }
+}
+</script>
+</body>
+</html>

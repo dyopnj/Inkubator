@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html class="light" lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChickHub - Riwayat</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F423;</text></svg>">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="stylesheet" href="css/style.css?v=4">
+<script>tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#795900","primary-container":"#fbc02d","on-primary":"#ffffff","on-primary-container":"#6c5000","primary-fixed":"#ffdfa0","primary-fixed-dim":"#f8bd2a","on-primary-fixed":"#261a00","on-primary-fixed-variant":"#5c4300","secondary":"#565e74","secondary-container":"#dae2fd","on-secondary":"#ffffff","on-secondary-container":"#5c647a","secondary-fixed":"#dae2fd","secondary-fixed-dim":"#bec6e0","on-secondary-fixed":"#131b2e","on-secondary-fixed-variant":"#3f465c","error":"#ba1a1a","error-container":"#ffdad6","on-error":"#ffffff","on-error-container":"#93000a","surface":"#f7f9fb","surface-dim":"#d8dadc","surface-bright":"#f7f9fb","surface-container-lowest":"#ffffff","surface-container-low":"#f2f4f6","surface-container":"#eceef0","surface-container-high":"#e6e8ea","surface-container-highest":"#e0e3e5","on-surface":"#191c1e","on-surface-variant":"#4f4633","outline":"#817661","outline-variant":"#d3c5ad","background":"#f7f9fb"},fontFamily:{sans:["Montserrat"],mono:["JetBrains Mono"]}}}};</script>
+</head>
+<body>
+<!-- ===== Sidebar ===== -->
+<aside class="ch-sidebar">
+  <div class="logo-area">
+    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7Y56pAuhoCtUueXgWrOCYB1HLbIKNXqLKAMoD6-XuuO1XT-De3YM13BcxcGRkd_VaXsvkl1-rZKddPXmW-8b-nTrPJIT2hOSnLUBW6qO0TCNB4jD7wyCkyq7H_9Iot-qO4L8OhGMxvPEA3shZlIiVdPmHKMQOpXa1cbS6Dx9M22_ICDPfR-7JuGEptv-VoWlABlK7aZWCASHk2djyjoFdppJS5klnstvOO4XFHMnvHg310qAJaDK-M3tAkS2f-C0DoVmVeZn9ngpU" alt="ChickHub">
+    <h1>ChickHub</h1>
+    <p>Smart Egg Incubator</p>
+  </div>
+  <nav>
+    <a class="nav-link" href="index.html">
+      <span class="material-symbols-outlined">home</span>
+      <span>Home</span>
+    </a>
+    <a class="nav-link active" href="history.html">
+      <span class="material-symbols-outlined filled-icon">history</span>
+      <span>History</span>
+    </a>
+    <a class="nav-link" href="settings.html">
+      <span class="material-symbols-outlined">settings</span>
+      <span>Settings</span>
+    </a>
+  </nav>
+  <div class="status-card">
+    <div class="status-item">
+      <span class="material-symbols-outlined filled-icon" style="color:#565e74;font-size:16px;">fiber_manual_record</span>
+      <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#4f4633;">System</div><div id="systemStatus" style="font-size:14px;color:#565e74;">—</div></div>
+    </div>
+    <div class="status-item">
+      <span class="material-symbols-outlined" style="color:#795900;font-size:16px;">wifi</span>
+      <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#4f4633;">Connection</div><div><span id="connStatus" class="ch-conn ch-conn-err">offline</span></div></div>
+    </div>
+  </div>
+  <div style="margin-top:8px;padding-top:8px;border-top:1px solid #d3c5ad;">
+    <a class="nav-link" href="#" onclick="event.preventDefault();handleLogout()" style="cursor:pointer;">
+      <span class="material-symbols-outlined">logout</span>
+      <span>Logout</span>
+    </a>
+  </div>
+</aside>
+
+<!-- ===== Main ===== -->
+<main class="ch-main" style="padding:24px 32px;">
+  <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h2 style="font-size:28px;font-weight:700;color:#795900;">History</h2>
+      <p style="font-size:14px;color:#4f4633;">Log aktivitas sistem inkubator</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-size:12px;color:#4f4633;" id="connText">Offline</span>
+      <span style="font-size:12px;font-weight:600;font-family:'JetBrains Mono',monospace;" id="clock">--:--</span>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="ch-card" style="margin-bottom:20px;border:none;border-radius:16px !important;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <div style="position:relative;flex:1;min-width:200px;">
+        <span class="material-symbols-outlined" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#4f4633;font-size:18px;">search</span>
+        <input id="historySearch" class="ch-input" style="padding-left:34px;" placeholder="Cari riwayat aktivitas..." type="text">
+      </div>
+      <button class="ch-chip active" data-filter="all">Semua</button>
+      <button class="ch-chip" data-filter="suhu">Suhu</button>
+      <button class="ch-chip" data-filter="humi">Kelembaban</button>
+      <span style="width:1px;height:20px;background:#d3c5ad;"></span>
+      <button class="ch-chip" onclick="exportCSV()" style="display:flex;align-items:center;gap:4px;">
+        <span class="material-symbols-outlined" style="font-size:14px;">download</span> CSV
+      </button>
+      <button class="ch-chip" onclick="clearHistory()" style="display:flex;align-items:center;gap:4px;color:#a33;">
+        <span class="material-symbols-outlined" style="font-size:14px;">delete</span> Hapus
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="ch-card" style="padding:0;overflow:hidden;">
+    <div style="overflow-x:auto;">
+      <table class="ch-table">
+        <thead>
+          <tr><th>Waktu</th><th>Aktivitas</th><th>Detail</th><th>Status</th><th style="text-align:right;">Aksi</th></tr>
+        </thead>
+        <tbody id="historyBody">
+          <tr><td colspan="5" style="text-align:center;padding:40px;color:#4f4633;">Memuat data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 24px;border-top:1px solid #d3c5ad;">
+      <span style="font-size:12px;color:#4f4633;" class="page-info">Menampilkan 0 riwayat</span>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="ch-btn" style="padding:4px 12px;background:#eceef0;border:1px solid #d3c5ad;" onclick="prevPage()" id="prevBtn"><span class="material-symbols-outlined" style="font-size:16px;">chevron_left</span></button>
+        <span id="pageInfo" style="font-size:12px;font-weight:700;padding:0 8px;">1</span>
+        <button class="ch-btn" style="padding:4px 12px;background:#eceef0;border:1px solid #d3c5ad;" onclick="nextPage()" id="nextBtn"><span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:20px;">
+    <div class="ch-bento" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div><h3 style="font-size:18px;font-weight:600;color:#795900;">Export Laporan</h3><p style="font-size:14px;color:#4f4633;">Download riwayat dalam format CSV.</p></div>
+      <button class="ch-btn ch-btn-primary" onclick="exportCSV()" style="display:flex;align-items:center;gap:6px;">
+        <span class="material-symbols-outlined" style="font-size:16px;">download</span> CSV
+      </button>
+    </div>
+    <div class="ch-bento" style="background:#795900;color:#fff;border-color:#795900;position:relative;overflow:hidden;">
+      <div style="position:relative;z-index:1;">
+        <p style="font-size:10px;opacity:.8;text-transform:uppercase;font-weight:700;">Total Riwayat</p>
+        <h4 style="font-size:32px;font-weight:700;" id="totalRecords">0</h4>
+        <p style="font-size:11px;margin-top:4px;"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">trending_up</span> <span id="todayRecords">0 Aktivitas</span></p>
+      </div>
+      <span class="material-symbols-outlined" style="position:absolute;right:-10px;bottom:-10px;font-size:100px;opacity:.1;">analytics</span>
+    </div>
+  </div>
+</main>
+
+<script src="js/utils.js"></script>
+<script src="js/mqtt-client.js"></script>
+<script src="js/app.js"></script>
+<script>
+let allHistory = [];
+let currentPage = 1;
+const perPage = 10;
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateClock();
+    setInterval(updateClock, 1000);
+    loadHistory();
+
+    ChickMQTT.onStatus((data) => {
+        const conn = document.getElementById('connText');
+        if (conn) conn.textContent = ChickMQTT.isConnected() ? 'Connected' : 'Offline';
+    });
+    ChickMQTT.onStatus((data) => {
+        if (data.suhu != null || data._history || data.aktivitas) {
+            if (data._history) {
+                allHistory = data._history;
+            } else if (data.aktivitas) {
+                allHistory.unshift({
+                    timestamp: new Date().toLocaleString('id-ID'),
+                    aktivitas: data.aktivitas,
+                    suhu: data.suhu, humi: data.humi,
+                    detail: data.detail || ''
+                });
+                if (allHistory.length > 500) allHistory.pop();
+            } else {
+                allHistory.unshift({
+                    timestamp: new Date().toLocaleString('id-ID'),
+                    aktivitas: 'Monitoring',
+                    suhu: data.suhu, humi: data.humi,
+                    detail: 'Suhu: ' + fmt(data.suhu, '°C', 1) + ' / Hum: ' + fmt(data.humi, '%', 0)
+                });
+                if (allHistory.length > 500) allHistory.pop();
+            }
+            renderPage();
+        }
+    });
+
+    // Filter chips
+    document.querySelectorAll('.ch-chip[data-filter]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.ch-chip[data-filter]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        });
+    });
+    document.getElementById('historySearch')?.addEventListener('input', applyFilters);
+});
+
+function loadHistory() {
+    fetch('/api/history?limit=200')
+        .then(r => r.json())
+        .then(data => {
+            allHistory = (data || []).map(r => ({
+                timestamp: r.timestamp,
+                aktivitas: r.aktivitas || 'Monitoring',
+                suhu: r.suhu, humi: r.humi,
+                detail: r.detail || 'Suhu: ' + fmt(r.suhu, '°C', 1) + ' / Hum: ' + fmt(r.humi, '%', 0)
+            }));
+            renderPage();
+        })
+        .catch(() => {
+            document.getElementById('historyBody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:#4f4633;">Gagal memuat data.</td></tr>';
+        });
+}
+
+function clearHistory() {
+    if (!confirm('Hapus semua riwayat?')) return;
+    fetch('/api/history/clear', { method: 'POST' })
+        .then(() => { allHistory = []; renderPage(); });
+}
+
+function applyFilters() {
+    const q = (document.getElementById('historySearch')?.value || '').toLowerCase();
+    const filter = document.querySelector('.ch-chip[data-filter].active')?.dataset?.filter || 'all';
+    let filtered = allHistory;
+    if (q) filtered = filtered.filter(r => (r.detail||'').toLowerCase().includes(q));
+    renderPage(filtered);
+}
+
+function renderPage(data) {
+    const list = data || allHistory;
+    const total = list.length;
+    const tp = Math.ceil(total/perPage)||1;
+    if (currentPage > tp) currentPage = tp;
+    const start = (currentPage-1)*perPage;
+    const items = list.slice(start, start+perPage);
+    const tbody = document.getElementById('historyBody');
+    if (!tbody) return;
+
+    if (!items.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:#4f4633;">Belum ada data.</td></tr>'; }
+    else {
+        tbody.innerHTML = items.map(r => {
+            const w = parseFloat(r.suhu)>39||parseFloat(r.suhu)<35;
+            return `<tr class="${w?'bg-error-container/5':''}">
+                <td class="ch-data" style="font-size:12px;">${esc(r.timestamp||'—')}</td>
+                <td style="font-weight:600;">${esc(r.aktivitas||'Monitoring')}</td>
+                <td><span class="${w?'ch-badge ch-badge-warning':''}">${esc(r.detail||'Suhu: '+fmt(r.suhu,'°C',1)+' / Hum: '+fmt(r.humi,'%',0))}</span></td>
+                <td><span class="${w?'ch-badge ch-badge-warning':'ch-badge ch-badge-normal'}"><span class="ch-dot" style="background:${w?'#ba1a1a':'#565e74'}"></span>${w?'WARNING':'NORMAL'}</span></td>
+                <td style="text-align:right;"><button class="ch-btn" style="padding:4px;background:none;"><span class="material-symbols-outlined">more_vert</span></button></td>
+            </tr>`;
+        }).join('');
+    }
+
+    document.querySelector('.page-info').innerHTML = total ? `Menampilkan <strong>${start+1}-${Math.min(start+perPage,total)}</strong> dari <strong>${total.toLocaleString()}</strong> riwayat` : 'Belum ada data';
+    document.getElementById('pageInfo').textContent = currentPage;
+    document.getElementById('prevBtn').style.opacity = currentPage<=1 ? '.5' : '1';
+    document.getElementById('nextBtn').style.opacity = currentPage>=tp ? '.5' : '1';
+    document.getElementById('totalRecords').textContent = total.toLocaleString();
+    document.getElementById('todayRecords').textContent = total+' Aktivitas';
+}
+
+function nextPage() { if (currentPage < Math.ceil(allHistory.length/perPage)) { currentPage++; applyFilters(); } }
+function prevPage() { if (currentPage > 1) { currentPage--; applyFilters(); } }
+
+function exportCSV() {
+    if (!allHistory.length) return alert('Belum ada data.');
+    let csv = 'Waktu,Aktivitas,Detail,Status\n';
+    allHistory.forEach(r => { const w = parseFloat(r.suhu)>39||parseFloat(r.suhu)<35; csv += `"${r.timestamp}","${r.aktivitas}","${(r.detail||'').replace(/"/g,'""')}","${w?'WARNING':'NORMAL'}"\n`; });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download = 'chickhub_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+}
+</script>
+</body>
+</html>

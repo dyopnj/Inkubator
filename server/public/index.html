@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="light" lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChickHub - Smart Egg Incubator</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F423;</text></svg>">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="stylesheet" href="css/style.css?v=4">
+<script>tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#795900","primary-container":"#fbc02d","on-primary":"#ffffff","on-primary-container":"#6c5000","primary-fixed":"#ffdfa0","primary-fixed-dim":"#f8bd2a","on-primary-fixed":"#261a00","on-primary-fixed-variant":"#5c4300","secondary":"#565e74","secondary-container":"#dae2fd","on-secondary":"#ffffff","on-secondary-container":"#5c647a","secondary-fixed":"#dae2fd","secondary-fixed-dim":"#bec6e0","on-secondary-fixed":"#131b2e","on-secondary-fixed-variant":"#3f465c","tertiary":"#515f74","tertiary-container":"#bbcae3","tertiary-fixed":"#d5e3fd","tertiary-fixed-dim":"#b9c7e0","on-tertiary":"#ffffff","on-tertiary-container":"#47556a","on-tertiary-fixed":"#0d1c2f","on-tertiary-fixed-variant":"#3a485c","error":"#ba1a1a","error-container":"#ffdad6","on-error":"#ffffff","on-error-container":"#93000a","surface":"#f7f9fb","surface-dim":"#d8dadc","surface-bright":"#f7f9fb","surface-container-lowest":"#ffffff","surface-container-low":"#f2f4f6","surface-container":"#eceef0","surface-container-high":"#e6e8ea","surface-container-highest":"#e0e3e5","surface-variant":"#e0e3e5","on-surface":"#191c1e","on-surface-variant":"#4f4633","inverse-surface":"#2d3133","inverse-on-surface":"#eff1f3","inverse-primary":"#f8bd2a","outline":"#817661","outline-variant":"#d3c5ad","background":"#f7f9fb","on-background":"#191c1e","surface-tint":"#795900"},fontFamily:{sans:["Montserrat"],mono:["JetBrains Mono"]}}}};</script>
+</head>
+<body>
+<!-- ===== Sidebar ===== -->
+<aside class="ch-sidebar">
+  <div class="logo-area">
+    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Ee39MEsvA15lePOkJS7B7nJcOclUjWl2ilDdI1e6EmhiYcnQOFmC4l2JN55NPvCshZHK7qaXQtScPT8Jp33eQ7VU9dNNSFZ4a1B9DdQFoRki27KSedbthY12_f-HIJNEi1ruTF0eN_ChQADyZImm99h3lDBqzRiqdogDa02UH00dfA-0sffCinUEuAGkEx69axdJ1Tkisnw_cWCuSkGUGsJXb0ZqFZW-jq8p2g3wE-yuS1p5dldhbxVszOSrRxcoy3J6p4ZxVHzH" alt="ChickHub">
+    <h1>ChickHub</h1>
+    <p>Smart Egg Incubator</p>
+  </div>
+  <nav>
+    <a class="nav-link active" href="index.html">
+      <span class="material-symbols-outlined filled-icon">home</span>
+      <span>Home</span>
+    </a>
+    <a class="nav-link" href="history.html">
+      <span class="material-symbols-outlined">history</span>
+      <span>History</span>
+    </a>
+    <a class="nav-link" href="settings.html">
+      <span class="material-symbols-outlined">settings</span>
+      <span>Settings</span>
+    </a>
+  </nav>
+  <div class="status-card">
+    <div class="status-item">
+      <span class="material-symbols-outlined filled-icon" style="color:#565e74;font-size:16px;">fiber_manual_record</span>
+      <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#4f4633;">System</div><div id="systemStatus" style="font-size:14px;color:#565e74;">—</div></div>
+    </div>
+    <div class="status-item">
+      <span class="material-symbols-outlined" style="color:#795900;font-size:16px;">wifi</span>
+      <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#4f4633;">Connection</div><div><span id="connStatus" class="ch-conn ch-conn-err">offline</span></div></div>
+    </div>
+  </div>
+  <div style="margin-top:8px;padding-top:8px;border-top:1px solid #d3c5ad;">
+    <a class="nav-link" href="#" onclick="event.preventDefault();handleLogout()" style="cursor:pointer;">
+      <span class="material-symbols-outlined">logout</span>
+      <span>Logout</span>
+    </a>
+  </div>
+</aside>
+
+<!-- ===== Main ===== -->
+<main class="ch-main">
+  <!-- TopBar -->
+  <header class="ch-topbar">
+    <div>
+      <h2 style="font-size:22px;font-weight:700;">&#x1F44B; Selamat datang!</h2>
+      <p style="font-size:14px;color:#4f4633;">Pantau dan kontrol inkubator telur Anda secara real-time.</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(251,192,45,0.2);padding:6px 14px;border-radius:999px;">
+        <span class="material-symbols-outlined filled-icon" style="color:#795900;font-size:18px;">egg</span>
+        <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#795900;">Inkubasi</div><div style="font-size:12px;font-weight:600;">Hari ke-<span id="inkubasiDay">—</span>/21</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:#eceef0;padding:6px 14px;border-radius:999px;">
+        <span class="material-symbols-outlined" style="color:#4f4633;font-size:16px;">calendar_today</span>
+        <span id="dateDisplay" style="font-size:12px;font-weight:600;">—</span>
+        <span style="width:1px;height:14px;background:#d3c5ad;"></span>
+        <span class="material-symbols-outlined" style="color:#4f4633;font-size:16px;">schedule</span>
+        <span id="clock" style="font-size:12px;font-weight:600;">--:--:--</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(218,226,253,0.5);padding:6px 14px;border-radius:999px;">
+        <span class="material-symbols-outlined filled-icon" style="color:#0a3;font-size:14px;">fiber_manual_record</span>
+        <span id="mqttStatus" style="font-size:12px;font-weight:700;">Connecting</span>
+      </div>
+      <button class="ch-btn ch-btn-primary" id="mode-toggle" onclick="toggleGlobalMode(this)" style="display:flex;align-items:center;gap:6px;text-transform:none;">
+        <span class="material-symbols-outlined mode-icon" style="font-size:18px;">smart_toy</span>
+        <div><div style="font-size:9px;font-weight:700;opacity:.7;">Mode</div><span class="mode-text" style="font-size:12px;">AUTO</span></div>
+      </button>
+    </div>
+  </header>
+
+  <!-- Notification -->
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border:1px solid rgba(211,197,173,0.3);border-radius:12px;padding:14px;margin-bottom:20px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="material-symbols-outlined filled-icon" style="color:#795900;">notifications_active</span>
+      <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#795900;">Pemberitahuan Sistem</div><div id="notifText" style="font-size:14px;color:#191c1e;">Menunggu data dari sensor...</div></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <span style="display:flex;align-items:center;gap:4px;background:#eceef0;padding:4px 10px;border-radius:999px;border:1px solid rgba(211,197,173,0.1);font-size:10px;font-weight:700;"><span class="material-symbols-outlined" style="font-size:12px;color:#565e74;">check_circle</span> Sensor Terkalibrasi</span>
+      <span style="display:flex;align-items:center;gap:4px;background:#eceef0;padding:4px 10px;border-radius:999px;border:1px solid rgba(211,197,173,0.1);font-size:10px;font-weight:700;"><span class="material-symbols-outlined" style="font-size:12px;color:#795900;">schedule</span> Log: <span id="lastLogTime">—</span></span>
+    </div>
+  </div>
+
+  <!-- KPI Grid -->
+  <div class="ch-grid-5" style="margin-bottom:24px;">
+    <!-- Suhu -->
+    <div class="ch-card ch-card-kpi" style="position:relative;">
+      <div style="width:40px;height:40px;border-radius:50%;background:rgba(251,192,45,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
+        <span class="material-symbols-outlined" style="color:#795900;">thermostat</span>
+      </div>
+      <div class="ch-kpi-label">Suhu Saat Ini</div>
+      <div><span class="ch-kpi-value" id="suhuDisplay">--</span><span class="ch-kpi-unit">°C</span></div>
+      <div id="suhuBadge" class="ch-badge ch-badge-normal" style="margin-top:6px;">● —</div>
+      <div style="margin-top:4px;font-size:10px;color:#4f4633;">Setpoint: <span id="suhuSp">37.5</span>°C</div>
+    </div>
+    <!-- Kelembaban -->
+    <div class="ch-card ch-card-kpi">
+      <div style="width:40px;height:40px;border-radius:50%;background:rgba(218,226,253,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
+        <span class="material-symbols-outlined" style="color:#565e74;">humidity_mid</span>
+      </div>
+      <div class="ch-kpi-label">Kelembaban</div>
+      <div><span class="ch-kpi-value" id="humiDisplay">--</span><span class="ch-kpi-unit">% RH</span></div>
+      <div id="humiBadge" class="ch-badge ch-badge-normal" style="margin-top:6px;">● —</div>
+      <div style="margin-top:4px;font-size:10px;color:#4f4633;">Setpoint: <span id="humiSp">60</span>% RH</div>
+    </div>
+    <!-- Heater -->
+    <div class="ch-card ch-card-kpi" style="cursor:pointer;position:relative;" onclick="togglePanel('heater-panel')">
+      <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,223,160,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
+        <span class="material-symbols-outlined" style="color:#795900;">lightbulb</span>
+      </div>
+      <div class="ch-kpi-label">Heater Output</div>
+      <div><span class="ch-kpi-value" id="heaterDisplay">--</span><span class="ch-kpi-unit">%</span></div>
+      <div class="ch-bar" style="width:100%;margin-top:6px;"><div id="heaterBar" class="ch-bar-fill" style="width:0%;background:#fbc02d;"></div></div>
+      <div class="heater-mode-label" style="margin-top:4px;font-size:10px;color:#4f4633;">Mode: PID Auto</div>
+      <div class="ch-panel hidden" id="heater-panel" onclick="event.stopPropagation()">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <span style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#795900;">Heater</span>
+          <button onclick="togglePanel('heater-panel')" style="border:none;background:none;cursor:pointer;color:#4f4633;"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div id="heater-pid-content">
+          <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#4f4633;text-transform:uppercase;"><span>PID</span><span class="ch-badge ch-badge-active">Auto</span></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;">
+            <div style="background:#eceef0;padding:6px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:#4f4633;">Kp</div><div style="font-weight:700;font-size:14px;" id="panelH_kp">8.0</div></div>
+            <div style="background:#eceef0;padding:6px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:#4f4633;">Ki</div><div style="font-weight:700;font-size:14px;" id="panelH_ki">0.50</div></div>
+            <div style="background:#eceef0;padding:6px;border-radius:8px;text-align:center;"><div style="font-size:10px;color:#4f4633;">Kd</div><div style="font-weight:700;font-size:14px;" id="panelH_kd">2.0</div></div>
+          </div>
+          <button class="ch-btn ch-btn-primary" style="width:100%;margin-top:8px;" onclick="window.location.href='settings.html'">Konfigurasi</button>
+        </div>
+        <div class="hidden" id="heater-manual-content">
+          <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#4f4633;text-transform:uppercase;"><span>Manual</span><span class="ch-badge" style="background:#dae2fd;color:#3f465c;">Manual</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;">
+            <button class="ch-btn" style="flex:1;height:40px;background:#eceef0;border:1px solid #d3c5ad;" onclick="adjManual('heater',-5)"><span class="material-symbols-outlined">keyboard_arrow_down</span></button>
+            <div style="text-align:center;"><span style="font-size:24px;font-weight:700;" id="manualHeaterVal">0</span><span style="font-size:14px;">%</span></div>
+            <button class="ch-btn" style="flex:1;height:40px;background:#eceef0;border:1px solid #d3c5ad;" onclick="adjManual('heater',5)"><span class="material-symbols-outlined">keyboard_arrow_up</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Kipas -->
+    <div class="ch-card ch-card-kpi" style="cursor:pointer;position:relative;" onclick="togglePanel('kipas-panel')">
+      <div style="width:40px;height:40px;border-radius:50%;background:rgba(218,226,253,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
+        <span class="material-symbols-outlined" style="color:#565e74;animation:spin 3s linear infinite;">mode_fan</span>
+      </div>
+      <div class="ch-kpi-label">Kipas</div>
+      <div><span class="ch-kpi-value" id="fanStatus" style="font-size:28px;color:#aaa;">OFF</span></div>
+      <div class="kipas-mode-label" style="margin-top:6px;font-size:12px;font-weight:600;color:#4f4633;">Kecepatan: --%</div>
+      <div class="ch-panel hidden" id="kipas-panel" onclick="event.stopPropagation()">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <span style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#565e74;">Fan</span>
+          <button onclick="togglePanel('kipas-panel')" style="border:none;background:none;cursor:pointer;color:#4f4633;"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div id="kipas-auto-content">
+          <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#4f4633;text-transform:uppercase;"><span>Smart Cooling</span><span class="ch-badge ch-badge-active">Auto</span></div>
+          <div style="background:#eceef0;padding:10px;border-radius:8px;margin-top:8px;">
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:#4f4633;">Target</span><span style="font-weight:700;" id="panelFanTarget">--%</span></div>
+            <div class="ch-bar" style="margin-top:4px;"><div id="fanBar" class="ch-bar-fill" style="width:0%;background:#565e74;"></div></div>
+          </div>
+        </div>
+        <div class="hidden" id="kipas-manual-content">
+          <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#4f4633;text-transform:uppercase;"><span>Manual</span><span class="ch-badge" style="background:#dae2fd;color:#3f465c;">Manual</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;">
+            <button class="ch-btn" style="flex:1;height:36px;background:#eceef0;border:1px solid #d3c5ad;font-size:10px;" onclick="adjManual('fan',-10)">-10%</button>
+            <div><span style="font-size:24px;font-weight:700;" id="manualFanVal">--</span><span style="font-size:14px;">%</span></div>
+            <button class="ch-btn" style="flex:1;height:36px;background:#eceef0;border:1px solid #d3c5ad;font-size:10px;" onclick="adjManual('fan',10)">+10%</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Rak Telur -->
+    <div class="ch-card ch-card-kpi">
+      <div style="width:40px;height:40px;border-radius:50%;background:#eceef0;display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
+        <span class="material-symbols-outlined" style="color:#4f4633;">sync</span>
+      </div>
+      <div class="ch-kpi-label">Rak Telur</div>
+      <div><span style="font-size:28px;font-weight:700;color:#aaa;" id="motorDisplay">OFF</span></div>
+      <div style="margin-top:8px;width:100%;">
+        <button class="ch-btn ch-btn-primary" id="motorToggle" style="width:100%;height:36px;font-size:12px;text-transform:uppercase;font-weight:700;letter-spacing:.05em;" onclick="toggleMotor()">NYALAKAN</button>
+      </div>
+      <div style="width:100%;margin-top:6px;font-size:10px;color:#4f4633;">
+        <div style="display:flex;justify-content:space-between;"><span>Next:</span><span class="ch-data" id="nextTurnTime">--:--:--</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>Today:</span><span id="totalTurnToday" class="ch-data">— Kali</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="ch-grid-12" style="margin-bottom:24px;">
+    <div class="ch-col-span-6 ch-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h3 style="font-size:20px;font-weight:600;">Grafik Suhu (°C)</h3>
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#795900;"><span style="width:12px;height:4px;border-radius:999px;background:#fbc02d;"></span>Suhu</span>
+      </div>
+      <div style="height:180px;"><canvas id="tempChart"></canvas></div>
+    </div>
+    <div class="ch-col-span-6 ch-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h3 style="font-size:20px;font-weight:600;">Grafik Kelembaban (% RH)</h3>
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#565e74;"><span style="width:12px;height:4px;border-radius:999px;background:#565e74;"></span>Kelembaban</span>
+      </div>
+      <div style="height:180px;"><canvas id="humiChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border:1px solid rgba(211,197,173,0.2);border-radius:12px;padding:14px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:rgba(251,192,45,0.2);display:flex;align-items:center;justify-content:center;">
+        <span class="material-symbols-outlined" style="color:#795900;font-size:18px;">lightbulb_circle</span>
+      </div>
+      <span style="font-size:14px;"><strong style="color:#795900;">Tips:</strong> Jaga suhu 37.5°C dan kelembaban 60% untuk hasil optimal.</span>
+    </div>
+    <a href="#" style="font-size:14px;font-weight:700;color:#795900;text-decoration:underline;">Tips</a>
+  </footer>
+</main>
+
+<script src="js/utils.js"></script>
+<script src="js/mqtt-client.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    initDashboard();
+    updateClock();
+    setInterval(updateClock, 1000);
+    initCharts();
+
+    window.setDashboardData = function(data) {
+        if (!data) data = {};
+        document.getElementById('suhuDisplay').textContent = fmtVal(data.suhu, 1);
+        document.getElementById('humiDisplay').textContent = fmtVal(data.humi, 0);
+        document.getElementById('heaterDisplay').textContent = fmtVal(data.heater, 0);
+
+        const fanEl = document.getElementById('fanStatus');
+        if (fanEl) { const on = parseInt(data.kipas) > 0; fanEl.textContent = on ? 'ON' : 'OFF'; fanEl.style.color = on ? '#0a3' : '#aaa'; }
+
+        const sb = document.getElementById('suhuBadge');
+        if (sb) { const st = statusText(data.suhu); sb.textContent = '● '+st; sb.className = 'ch-badge '+(st==='WARNING'?'ch-badge-warning':'ch-badge-normal')+' margin-top:6px;'; }
+        const hb = document.getElementById('humiBadge');
+        if (hb) hb.textContent = '● '+(data.humi?(data.humi<50?'RENDAH':'NORMAL'):'—');
+
+        document.getElementById('notifText').textContent = data.suhu ? 'Suhu '+data.suhu+'°C, Kelembaban '+(data.humi||'--')+'%.' : 'Menunggu data dari sensor...';
+        document.getElementById('mqttStatus').textContent = ChickMQTT.isConnected() ? 'Connected' : 'Offline';
+        document.getElementById('lastLogTime').textContent = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+
+        if (data.pid_h) { document.getElementById('suhuSp').textContent = data.pid_h.sp; document.getElementById('panelH_kp').textContent=data.pid_h.kp; document.getElementById('panelH_ki').textContent=(data.pid_h.ki||0).toFixed(2); document.getElementById('panelH_kd').textContent=data.pid_h.kd; }
+        if (data.pid_f) { document.getElementById('humiSp').textContent = data.pid_f.sp; document.getElementById('panelFanTarget').textContent = (data.pid_f.sp||'--')+'%'; }
+        document.getElementById('heaterBar').style.width = (data.heater||0)+'%';
+        document.getElementById('fanBar').style.width = (data.kipas||0)+'%';
+        document.getElementById('manualHeaterVal').textContent = data.manual?.heater ?? '--';
+        document.getElementById('manualFanVal').textContent = data.manual?.fan ?? '--';
+        document.getElementById('motorDisplay').textContent = data.motor ?? 'OFF';
+    };
+});
+
+function toggleMotor() {
+    const btn = document.getElementById('motorToggle');
+    const isOn = btn.dataset.state === 'on';
+    ChickMQTT.setParam('motor', isOn ? 'OFF' : 'ON');
+}
+
+function adjManual(type, delta) {
+    const key = type==='heater'?'m_heater':'m_fan';
+    const el = document.getElementById(type==='heater'?'manualHeaterVal':'manualFanVal');
+    let cur = parseInt(el.textContent)||0;
+    cur = Math.max(0, Math.min(100, cur+delta));
+    el.textContent = cur;
+    ChickMQTT.setParam(key, cur);
+}
+
+function initCharts() {
+    ['tempChart','humiChart'].forEach(id => {
+        const c = document.getElementById(id); if(!c) return;
+        const ctx = c.getContext('2d');
+        const W = c.parentElement.clientWidth||400;
+        c.width = W; c.height = 180;
+        const isT = id==='tempChart';
+        ctx.fillStyle = isT ? 'rgba(251,192,45,0.1)' : 'rgba(86,94,116,0.1)';
+        ctx.fillRect(0,0,W,180);
+        ctx.strokeStyle = isT ? '#fbc02d' : '#565e74';
+        ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0,70); ctx.lineTo(W,70); ctx.stroke();
+        ctx.fillStyle = '#4f4633'; ctx.font = '10px Montserrat'; ctx.textAlign = 'center';
+        for(let i=1;i<=5;i++) ctx.fillText('--:--', W/6*i, 170);
+    });
+}
+</script>
+</body>
+</html>

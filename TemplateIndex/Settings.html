@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#eceef0",
+                    "on-secondary-fixed": "#131b2e",
+                    "primary-fixed-dim": "#f8bd2a",
+                    "on-surface": "#191c1e",
+                    "surface-container-high": "#e6e8ea",
+                    "surface-bright": "#f7f9fb",
+                    "tertiary-fixed-dim": "#b9c7e0",
+                    "tertiary-container": "#bbcae3",
+                    "on-secondary": "#ffffff",
+                    "on-surface-variant": "#4f4633",
+                    "outline": "#817661",
+                    "on-primary-container": "#6c5000",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#dae2fd",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface": "#f7f9fb",
+                    "inverse-primary": "#f8bd2a",
+                    "secondary": "#565e74",
+                    "on-tertiary-fixed": "#0d1c2f",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-primary-fixed-variant": "#5c4300",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d8dadc",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#515f74",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#dae2fd",
+                    "primary": "#795900",
+                    "on-tertiary-container": "#47556a",
+                    "surface-variant": "#e0e3e5",
+                    "primary-container": "#fbc02d",
+                    "on-background": "#191c1e",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "outline-variant": "#d3c5ad",
+                    "surface-container-low": "#f2f4f6",
+                    "on-tertiary-fixed-variant": "#3a485c",
+                    "surface-tint": "#795900",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-fixed": "#d5e3fd",
+                    "primary-fixed": "#ffdfa0",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#5c647a",
+                    "background": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "on-primary-fixed": "#261a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin": "24px",
+                    "base": "4px",
+                    "xs": "4px",
+                    "xl": "40px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-lg": ["Geist"],
+                    "body-md": ["Geist"],
+                    "data-display": ["JetBrains Mono"],
+                    "display-lg": ["Geist"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "data-display": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Geist', sans-serif;
+        }
+        .bento-card {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        .bento-card:hover {
+            border-color: #fbc02d;
+        }
+        .custom-toggle {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .custom-toggle input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #e2e8f0;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #fbc02d; }
+        input:checked + .slider:before { transform: translateX(24px); }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container-low border-r border-outline-variant flex flex-col py-lg z-50">
+<div class="px-lg mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">ChickHub</h1>
+<p class="text-label-md font-label-md text-on-surface-variant opacity-70">Precision Monitoring</p>
+</div>
+<nav class="flex-1 px-md space-y-sm">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-primary-container bg-primary-container rounded-full transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-md mt-auto pt-md border-t border-outline-variant">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-error hover:bg-error-container rounded-full transition-all mt-xs" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-margin min-h-screen">
+<header class="mb-xl flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Settings</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage your account and device preferences.</p>
+</div>
+<div class="flex gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-sm hover:bg-surface-container-high rounded-full">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-sm hover:bg-surface-container-high rounded-full">account_circle</span>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- 1. Profil Pengguna -->
+<section class="col-span-12 md:col-span-8 bento-card p-lg rounded-xl flex flex-col md:flex-row items-center gap-lg">
+<div class="relative group">
+<img alt="User Profile" class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-sm" data-alt="A clean, professional headshot of a middle-aged Southeast Asian man with a friendly expression. He is wearing a minimalist dark polo shirt against a neutral grey architectural background. The lighting is soft and directional, evoking a high-end corporate modern aesthetic consistent with an industrial intelligence dashboard. The overall mood is reliable and technical." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkB1MyTNuAP7kz7F6ZFTqpL8ki3XBumOzgKhM4gyB1iq3SaTP4TQXPFAmEx4D-65l1_Y3FGOE-JHJJbWVyoQfR9uER5g_Y02lSFWrF5T9TAfdGQbct5MoxLR93m5S0yal306p4-DJwDu2_Am5Ek96LksnzOsIzJSWeMvrxb1_htXs1KIPVf-k3S5DiuHRIOSyBjjWw0C3IU1XPNI0vVaVHaDjLFybepkbaZa65iYBM_lwCMZ3CRhN1Vd7s7zAw2p7mAH0zbqQV46jo"/>
+<button class="absolute bottom-0 right-0 bg-primary-container p-xs rounded-full shadow-md hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</button>
+</div>
+<div class="flex-1 text-center md:text-left">
+<h3 class="font-headline-md text-headline-md text-on-surface">Budi Santoso</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">budi.santoso@industrial.io</p>
+<div class="flex flex-wrap gap-sm justify-center md:justify-start">
+<button class="px-lg py-sm bg-primary-container text-on-primary-container font-label-md text-label-md rounded shadow-sm hover:opacity-90 transition-opacity flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">edit</span> Edit Profile
+                        </button>
+<button class="px-lg py-sm border border-outline text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-low transition-colors">
+                            Security Settings
+                        </button>
+</div>
+</div>
+</section>
+<!-- 2. Mode Tampilan -->
+<section class="col-span-12 md:col-span-4 bento-card p-lg rounded-xl flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Interface</span>
+<span class="material-symbols-outlined text-primary">palette</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs">Mode Tampilan</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Switch between light and dark visual themes.</p>
+</div>
+<div class="mt-lg flex items-center justify-between bg-surface-container-low p-md rounded-lg">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" id="theme-icon">light_mode</span>
+<span class="font-body-md text-body-md font-semibold" id="theme-label">Light Mode</span>
+</div>
+<label class="custom-toggle">
+<input id="theme-toggle" type="checkbox"/>
+<span class="slider"></span>
+</label>
+</div>
+</section>
+<!-- 3. Preferensi Bahasa -->
+<section class="col-span-12 md:col-span-5 bento-card p-lg rounded-xl">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary">language</span>
+<h3 class="font-headline-md text-headline-md">Preferensi Bahasa</h3>
+</div>
+<div class="space-y-sm">
+<label class="flex items-center p-md border border-primary bg-primary/5 rounded-lg cursor-pointer transition-all">
+<input checked="" class="w-4 h-4 text-primary focus:ring-primary border-outline-variant" name="lang" type="radio"/>
+<span class="ml-md font-body-lg text-body-lg flex-1">Bahasa Indonesia</span>
+<span class="text-label-md font-label-md text-primary bg-primary-fixed px-sm rounded">Active</span>
+</label>
+<label class="flex items-center p-md border border-outline-variant hover:border-outline rounded-lg cursor-pointer transition-all">
+<input class="w-4 h-4 text-primary focus:ring-primary border-outline-variant" name="lang" type="radio"/>
+<span class="ml-md font-body-lg text-body-lg flex-1">English</span>
+<span class="text-label-md font-label-md text-on-surface-variant">Global</span>
+</label>
+</div>
+</section>
+<!-- 4. Pengaturan Perangkat -->
+<section class="col-span-12 md:col-span-7 bento-card p-lg rounded-xl overflow-hidden relative">
+<!-- Atmospheric Background Detail -->
+<div class="absolute -right-8 -bottom-8 opacity-10">
+<span class="material-symbols-outlined text-[120px]">precision_manufacturing</span>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-lg">
+<div>
+<h3 class="font-headline-md text-headline-md">Pengaturan Perangkat</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Configuration for active IoT modules.</p>
+</div>
+<span class="px-sm py-xs bg-primary-container text-on-primary-container font-label-md text-label-md rounded uppercase tracking-tighter">Connected</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="space-y-xs">
+<span class="font-label-md text-label-md text-on-surface-variant">Nama Perangkat</span>
+<div class="p-md bg-white border border-outline-variant rounded font-data-display text-data-display flex items-center justify-between">
+<span>ESP32-Incubator-01</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant cursor-pointer">edit</span>
+</div>
+</div>
+<div class="space-y-xs">
+<span class="font-label-md text-label-md text-on-surface-variant">Uptime Status</span>
+<div class="p-md bg-white border border-outline-variant rounded flex items-center gap-md">
+<div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div>
+<span class="font-data-display text-data-display">99.98%</span>
+</div>
+</div>
+</div>
+<div class="mt-lg pt-lg border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant">wifi</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Signal Strength: -45dBm (Excellent)</span>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline">Reboot Device</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeLabel = document.getElementById('theme-label');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('change', () => {
+            if (themeToggle.checked) {
+                html.classList.add('dark');
+                themeIcon.innerText = 'dark_mode';
+                themeLabel.innerText = 'Dark Mode';
+                // Note: Dark mode colors would need to be expanded in tailwind config for full effect
+                document.body.style.backgroundColor = '#131b2e';
+                document.body.style.color = '#f7f9fb';
+            } else {
+                html.classList.remove('dark');
+                themeIcon.innerText = 'light_mode';
+                themeLabel.innerText = 'Light Mode';
+                document.body.style.backgroundColor = '#f7f9fb';
+                document.body.style.color = '#191c1e';
+            }
+        });
+
+        // Hover animation for bento cards
+        const cards = document.querySelectorAll('.bento-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.05)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body></html>

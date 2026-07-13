@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id" style="width: 1280px; height: 1290px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ChickHub - Smart Egg Incubator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-error": "#ffffff",
+                "surface-tint": "#795900",
+                "on-primary": "#ffffff",
+                "inverse-surface": "#2d3133",
+                "on-tertiary-fixed-variant": "#3a485c",
+                "tertiary-fixed-dim": "#b9c7e0",
+                "secondary-container": "#dae2fd",
+                "surface-container-highest": "#e0e3e5",
+                "surface-bright": "#f7f9fb",
+                "primary-fixed": "#ffdfa0",
+                "on-secondary-container": "#5c647a",
+                "primary": "#795900",
+                "surface-container": "#eceef0",
+                "outline-variant": "#d3c5ad",
+                "on-secondary-fixed-variant": "#3f465c",
+                "on-secondary-fixed": "#131b2e",
+                "primary-container": "#fbc02d",
+                "secondary-fixed-dim": "#bec6e0",
+                "on-surface-variant": "#4f4633",
+                "error": "#ba1a1a",
+                "tertiary-container": "#bbcae3",
+                "on-primary-container": "#6c5000",
+                "secondary": "#565e74",
+                "error-container": "#ffdad6",
+                "tertiary-fixed": "#d5e3fd",
+                "surface-variant": "#e0e3e5",
+                "on-primary-fixed-variant": "#5c4300",
+                "inverse-primary": "#f8bd2a",
+                "outline": "#817661",
+                "on-background": "#191c1e",
+                "surface-container-low": "#f2f4f6",
+                "on-error-container": "#93000a",
+                "on-secondary": "#ffffff",
+                "secondary-fixed": "#dae2fd",
+                "surface-container-lowest": "#ffffff",
+                "on-primary-fixed": "#261a00",
+                "on-surface": "#191c1e",
+                "surface-container-high": "#e6e8ea",
+                "on-tertiary-container": "#47556a",
+                "surface-dim": "#d8dadc",
+                "inverse-on-surface": "#eff1f3",
+                "on-tertiary-fixed": "#0d1c2f",
+                "tertiary": "#515f74",
+                "surface": "#f7f9fb",
+                "on-tertiary": "#ffffff",
+                "background": "#f7f9fb",
+                "primary-fixed-dim": "#f8bd2a"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "xs": "4px",
+                "md": "16px",
+                "lg": "24px",
+                "base": "4px",
+                "gutter": "16px",
+                "margin": "24px",
+                "xl": "40px",
+                "sm": "8px",
+                "margin-desktop": "32px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Montserrat"
+                ],
+                "data-display": [
+                        "Montserrat"
+                ],
+                "body-lg": [
+                        "Montserrat"
+                ],
+                "label-md": [
+                        "Montserrat"
+                ],
+                "headline-lg": [
+                        "Montserrat"
+                ],
+                "display-lg": [
+                        "Montserrat"
+                ],
+                "body-md": [
+                        "Montserrat"
+                ],
+                "headline-sm": ["Montserrat"],
+                "label-lg": ["Montserrat"],
+                "stat-value": ["Montserrat"]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "data-display": [
+                        "20px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "stat-value": ["36px", {"lineHeight": "44px", "fontWeight": "700"}]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body { font-family: 'Montserrat', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Authority: JSON & Style Guidance) -->
+<aside class="w-[280px] h-screen fixed left-0 top-0 flex flex-col h-full py-lg dark:bg-surface-dim shadow-sm z-50 bg-white border-r border-outline-variant/10">
+<div class="px-md mb-xl flex flex-col items-center">
+<img alt="ChickHub logo showing a cute yellow chick" class="w-24 h-24 mb-base" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Ee39MEsvA15lePOkJS7B7nJcOclUjWl2ilDdI1e6EmhiYcnQOFmC4l2JN55NPvCshZHK7qaXQtScPT8Jp33eQ7VU9dNNSFZ4a1B9DdQFoRki27KSedbthY12_f-HIJNEi1ruTF0eN_ChQADyZImm99h3lDBqzRiqdogDa02UH00dfA-0sffCinUEuAGkEx69axdJ1Tkisnw_cWCuSkGUGsJXb0ZqFZW-jq8p2g3wE-yuS1p5dldhbxVszOSrRxcoy3J6p4ZxVHzH" style="transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: scale(1) rotate(0deg);"/>
+<h1 class="text-headline-md font-bold text-on-surface">ChickHub</h1>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Smart Egg Incubator</p>
+</div>
+<nav class="flex-grow">
+<!-- Home (Active) -->
+<a class="flex items-center gap-base bg-primary-container text-on-primary-container rounded-lg px-4 py-3 mx-2 scale-95 transition-transform" href="#"><span class="material-symbols-outlined filled-icon">home</span><span class="font-label-lg text-label-lg">Home</span></a>
+<!-- History -->
+<a class="flex items-center gap-base text-on-surface-variant hover:text-primary rounded-lg px-4 py-3 mx-2 hover:bg-surface-container transition-all duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-lg text-label-lg">History</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-base text-on-surface-variant hover:text-primary rounded-lg px-4 py-3 mx-2 hover:bg-surface-container transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-lg text-label-lg">Settings</span>
+</a>
+</nav>
+<div class="px-md mt-auto pt-lg">
+<div class="bg-surface-container p-sm rounded-xl mb-md">
+<div class="flex items-center gap-sm mb-base">
+<span class="material-symbols-outlined text-secondary filled-icon">fiber_manual_record</span>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant">System Status</span>
+<span class="font-body-md text-body-md text-secondary">Normal</span>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">wifi</span>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant">Connected to</span>
+<span class="font-body-md text-body-md">ESP32</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] p-margin-desktop min-h-screen relative">
+<!-- TopAppBar (Authority: JSON & Style Guidance) -->
+<header class="flex justify-between items-center h-20 mb-lg">
+<div>
+<h2 class="font-headline-sm text-headline-sm flex items-center gap-sm">
+<span class="text-on-surface">👋 Selamat datang!</span>
+</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Pantau dan kontrol inkubator telur Anda secara real-time.</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="bg-primary-container/20 px-4 py-2 rounded-full flex items-center gap-sm text-primary">
+<span class="material-symbols-outlined filled-icon">egg</span>
+<div class="flex flex-col"><span class="text-[10px] uppercase font-bold opacity-70">Inkubasi</span><span class="font-label-lg text-label-lg text-on-surface">Hari ke-12 / 21</span></div>
+</div>
+<div class="flex items-center gap-sm bg-surface-container px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant">calendar_today</span>
+<span class="font-label-lg text-label-lg">25 Mei 2024</span>
+<div class="w-px h-4 bg-outline-variant mx-xs"></div>
+<span class="material-symbols-outlined text-on-surface-variant">schedule</span>
+<span class="font-label-lg text-label-lg">14:32:15</span>
+</div>
+<div class="bg-secondary-container/50 px-4 py-2 rounded-full flex items-center gap-sm text-on-secondary-fixed-variant">
+<span class="material-symbols-outlined filled-icon text-green-600">fiber_manual_record</span>
+<span class="font-label-lg text-label-lg font-bold">Connected</span>
+</div>
+<button class="bg-surface-container px-4 py-2 rounded-full flex items-center gap-sm text-on-surface-variant hover:bg-primary-container/20 hover:text-primary transition-all duration-200 group" id="mode-toggle" onclick="toggleGlobalMode(this)"><span class="material-symbols-outlined mode-icon text-sm">smart_toy</span><div class="flex flex-col items-start"><span class="text-[10px] uppercase font-bold opacity-70">Mode</span><span class="font-label-lg text-label-lg mode-text">AUTO</span></div></button></div>
+</header>
+<!-- KPI Grid -->
+<div class="w-full bg-white border border-outline-variant/30 rounded-xl p-4 mb-lg flex items-center justify-between gap-md shadow-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary filled-icon">notifications_active</span>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-primary">Pemberitahuan Sistem</span>
+<span class="font-body-md text-body-md text-on-surface">Sistem berjalan optimal. Tidak ada anomali terdeteksi dalam 24 jam terakhir.</span>
+</div>
+</div>
+<div class="flex items-center gap-md overflow-x-auto">
+<div class="flex items-center gap-xs bg-surface-container px-3 py-1 rounded-full border border-outline-variant/10">
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+<span class="text-[10px] font-bold whitespace-nowrap">Sensor Terkalibrasi</span>
+</div>
+<div class="flex items-center gap-xs bg-surface-container px-3 py-1 rounded-full border border-outline-variant/10">
+<span class="material-symbols-outlined text-xs text-primary">schedule</span>
+<span class="text-[10px] font-bold whitespace-nowrap">Log Terakhir: 14:30</span>
+</div>
+<button class="text-primary font-bold text-[10px] uppercase hover:underline">Lihat Semua</button>
+</div>
+</div>
+<section class="grid grid-cols-1 md:grid-cols-5 gap-gutter mb-lg relative">
+<!-- Suhu -->
+<div class="bg-white p-md rounded-xl shadow-sm border border-outline-variant/20 flex flex-col items-center text-center">
+<div class="w-12 h-12 bg-primary-container/20 rounded-full flex items-center justify-center mb-sm">
+<span class="material-symbols-outlined text-primary">thermostat</span>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Suhu Saat Ini</p>
+<div class="flex items-baseline gap-xs text-on-surface">
+<span class="font-stat-value text-stat-value">37.8</span>
+<span class="text-headline-md">°C</span>
+</div>
+<div class="mt-base px-3 py-1 bg-green-100 text-green-800 rounded-full text-[10px] font-bold">● NORMAL</div>
+<p class="mt-sm text-[10px] text-on-surface-variant">Setpoint: 37.5 °C</p>
+</div>
+<!-- Kelembaban -->
+<div class="bg-white p-md rounded-xl shadow-sm border border-outline-variant/20 flex flex-col items-center text-center">
+<div class="w-12 h-12 bg-secondary-container/30 rounded-full flex items-center justify-center mb-sm">
+<span class="material-symbols-outlined text-secondary">humidity_mid</span>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Kelembaban</p>
+<div class="flex items-baseline gap-xs text-on-surface">
+<span class="font-stat-value text-stat-value">58</span>
+<span class="text-headline-md">% RH</span>
+</div>
+<div class="mt-base px-3 py-1 bg-green-100 text-green-800 rounded-full text-[10px] font-bold">● NORMAL</div>
+<p class="mt-sm text-[10px] text-on-surface-variant">Setpoint: 60 % RH</p>
+</div>
+<!-- Heater -->
+<div class="bg-white p-md rounded-xl shadow-sm border border-outline-variant/20 flex flex-col items-center text-center cursor-pointer hover:border-primary/50 transition-all active:scale-95 group relative" onclick="togglePanel('heater-panel')">
+<div class="w-12 h-12 bg-primary-fixed/30 rounded-full flex items-center justify-center mb-sm group-hover:bg-primary-fixed/50 transition-colors">
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Heater Output</p>
+<div class="flex items-baseline gap-xs text-on-surface">
+<span class="font-stat-value text-stat-value">65</span>
+<span class="text-headline-md">%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full mt-base overflow-hidden">
+<div class="bg-primary-container h-full w-[65%]"></div>
+</div>
+<p class="mt-sm text-[10px] text-on-surface-variant heater-mode-label">Mode: PID Auto</p>
+<!-- Heater Floating Panel -->
+<div class="hidden absolute top-full left-0 mt-2 z-[60] w-64 bg-white shadow-xl rounded-xl border border-outline-variant p-4 text-left cursor-default" id="heater-panel" onclick="event.stopPropagation()">
+<div class="flex justify-between items-center mb-md">
+<span class="font-bold text-label-md uppercase text-primary">Heater Controls</span>
+<button class="text-on-surface-variant hover:text-error transition-colors" onclick="togglePanel('heater-panel')"><span class="material-symbols-outlined text-md">close</span></button>
+</div>
+<!-- PID Content -->
+<div class="space-y-sm" id="heater-pid-content">
+<div class="flex justify-between items-center text-[11px] font-bold text-on-surface-variant uppercase"><span>PID Parameters</span> <span class="bg-primary-container/10 px-2 py-0.5 rounded text-primary">Auto</span></div>
+<div class="grid grid-cols-3 gap-xs">
+<div class="bg-surface-container p-2 rounded-lg flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant">Kp</span>
+<span class="font-bold text-body-md">2.5</span>
+</div>
+<div class="bg-surface-container p-2 rounded-lg flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant">Ki</span>
+<span class="font-bold text-body-md">0.1</span>
+</div>
+<div class="bg-surface-container p-2 rounded-lg flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant">Kd</span>
+<span class="font-bold text-body-md">0.8</span>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container py-2 rounded-lg text-label-md font-bold hover:opacity-90 mt-xs">Konfigurasi Lanjut</button>
+</div>
+<!-- Manual Content -->
+<div class="hidden space-y-md" id="heater-manual-content">
+<div class="flex justify-between items-center text-[11px] font-bold text-on-surface-variant uppercase"><span>Manual Adjust</span> <span class="bg-secondary-container/30 px-2 py-0.5 rounded text-secondary">Manual</span></div>
+<div class="flex items-center justify-between gap-md">
+<button class="flex-1 bg-surface-container hover:bg-surface-container-high h-12 rounded-lg flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-on-surface">keyboard_arrow_down</span></button>
+<div class="text-center">
+<span class="text-headline-md font-bold">65</span><span class="text-body-md">%</span>
+</div>
+<button class="flex-1 bg-surface-container hover:bg-surface-container-high h-12 rounded-lg flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-on-surface">keyboard_arrow_up</span></button>
+</div>
+<p class="text-[10px] text-center text-on-surface-variant italic">Geser atau gunakan tombol untuk atur output.</p>
+</div>
+</div>
+</div>
+<!-- Kipas -->
+<div class="bg-white p-md rounded-xl shadow-sm border border-outline-variant/20 flex flex-col items-center text-center cursor-pointer hover:border-secondary/50 transition-all active:scale-95 group relative" onclick="togglePanel('kipas-panel')">
+<div class="w-12 h-12 bg-secondary-fixed/30 rounded-full flex items-center justify-center mb-sm group-hover:bg-secondary-fixed/50 transition-colors">
+<span class="material-symbols-outlined text-secondary animate-spin" style="animation-duration: 3s;">mode_fan</span>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Kipas</p>
+<div class="flex items-baseline gap-xs">
+<span class="font-stat-value text-stat-value text-green-700">ON</span>
+</div>
+<p class="mt-base font-label-lg text-label-lg text-on-surface-variant kipas-mode-label">Kecepatan: 80%</p>
+<!-- Kipas Floating Panel -->
+<div class="hidden absolute top-full left-0 mt-2 z-[60] w-64 bg-white shadow-xl rounded-xl border border-outline-variant p-4 text-left cursor-default" id="kipas-panel" onclick="event.stopPropagation()">
+<div class="flex justify-between items-center mb-md">
+<span class="font-bold text-label-md uppercase text-secondary">Fan Controls</span>
+<button class="text-on-surface-variant hover:text-error transition-colors" onclick="togglePanel('kipas-panel')"><span class="material-symbols-outlined text-md">close</span></button>
+</div>
+<!-- PID/Auto Content -->
+<div class="space-y-sm" id="kipas-auto-content">
+<div class="flex justify-between items-center text-[11px] font-bold text-on-surface-variant uppercase"><span>Smart Cooling</span> <span class="bg-primary-container/10 px-2 py-0.5 rounded text-primary">Auto</span></div>
+<div class="bg-surface-container p-3 rounded-lg flex flex-col">
+<div class="flex justify-between mb-xs">
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">Kecepatan Target</span>
+<span class="font-bold text-body-md">80%</span>
+</div>
+<div class="w-full bg-outline-variant/30 h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[80%]"></div>
+</div>
+</div>
+<p class="text-[10px] text-on-surface-variant">Sistem mengoptimalkan sirkulasi udara berdasarkan sensor CO2 dan kelembaban.</p>
+</div>
+<!-- Manual Content -->
+<div class="hidden space-y-md" id="kipas-manual-content">
+<div class="flex justify-between items-center text-[11px] font-bold text-on-surface-variant uppercase"><span>Manual Override</span> <span class="bg-secondary-container/30 px-2 py-0.5 rounded text-secondary">Manual</span></div>
+<div class="flex items-center justify-between gap-base mb-xs">
+<span class="text-label-md font-bold">Toggle Power</span>
+<button class="w-12 h-6 bg-green-500 rounded-full relative flex items-center px-1"><div class="w-4 h-4 bg-white rounded-full ml-auto"></div></button>
+</div>
+<div class="flex items-center justify-between gap-md">
+<button class="flex-1 bg-surface-container hover:bg-surface-container-high h-10 rounded-lg flex items-center justify-center transition-colors text-xs font-bold">-10%</button>
+<div class="text-center">
+<span class="text-headline-md font-bold">80</span><span class="text-body-md">%</span>
+</div>
+<button class="flex-1 bg-surface-container hover:bg-surface-container-high h-10 rounded-lg flex items-center justify-center transition-colors text-xs font-bold">+10%</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Rak Telur -->
+<div class="bg-white p-md rounded-xl shadow-sm border border-outline-variant/20 flex flex-col items-center text-center">
+<div class="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center mb-sm">
+<span class="material-symbols-outlined text-on-surface-variant">sync</span>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Rak Telur</p>
+<div class="flex items-baseline gap-xs text-on-surface-variant">
+<span class="font-stat-value text-stat-value">OFF</span>
+</div>
+<div class="mt-sm text-left w-full space-y-1"><p class="text-[10px] text-on-surface-variant flex justify-between"><span class="">Next Turn:</span> <span class="font-bold text-on-surface">01:45:00</span></p><p class="text-[10px] text-on-surface-variant flex justify-between"><span class="">Total Hari Ini:</span> <span class="font-bold text-on-surface">8 Kali</span></p></div>
+</div>
+</section>
+<!-- Charts Section -->
+<div class="grid grid-cols-12 gap-gutter mb-lg">
+<!-- Temp Chart -->
+<div class="col-span-12 bg-white p-lg rounded-xl shadow-sm border border-outline-variant/10 lg:col-span-6">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Grafik Suhu (°C)</h3>
+<div class="flex items-center gap-xs text-label-lg font-label-lg text-primary">
+<div class="w-3 h-1 bg-primary-container rounded-full"></div>
+<span class="">Suhu</span>
+</div>
+</div>
+<div class="h-48 w-full relative">
+<svg class="w-full h-full" viewbox="0 0 500 200">
+<path class="fill-primary-container/10" d="M0,150 Q50,130 100,160 T200,120 T300,140 T400,110 T500,130 L500,200 L0,200 Z"></path>
+<path d="M0,150 Q50,130 100,160 T200,120 T300,140 T400,110 T500,130" fill="none" stroke="#fbc02d" stroke-width="3"></path>
+</svg>
+<div class="absolute bottom-0 w-full flex justify-between text-[10px] text-on-surface-variant pt-2">
+<span class="">13:30</span><span class="">13:45</span><span class="">14:00</span><span class="">14:15</span><span class="">14:30</span>
+</div>
+</div>
+</div>
+<!-- Humidity Chart -->
+<div class="col-span-12 bg-white p-lg rounded-xl shadow-sm border border-outline-variant/10 lg:col-span-6">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Grafik Kelembaban (% RH)</h3>
+<div class="flex items-center gap-xs text-label-lg font-label-lg text-secondary">
+<div class="w-3 h-1 bg-secondary rounded-full"></div>
+<span class="">Kelembaban</span>
+</div>
+</div>
+<div class="h-48 w-full relative">
+<svg class="w-full h-full" viewbox="0 0 500 200">
+<path class="fill-secondary-container/10" d="M0,100 Q50,110 100,90 T200,100 T300,80 T400,110 T500,95 L500,200 L0,200 Z"></path>
+<path d="M0,100 Q50,110 100,90 T200,100 T300,80 T400,110 T500,95" fill="none" stroke="#565e74" stroke-width="3"></path>
+</svg>
+<div class="absolute bottom-0 w-full flex justify-between text-[10px] text-on-surface-variant pt-2">
+<span class="">13:30</span><span class="">13:45</span><span class="">14:00</span><span class="">14:15</span><span class="">14:30</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Controls Section -->
+<!-- Footer (Authority: JSON & Style Guidance) -->
+<footer class="rounded-xl p-4 bg-white border border-outline-variant/20 shadow-sm flex items-center justify-between gap-base group">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 bg-primary-container/20 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">lightbulb_circle</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+<strong class="font-bold text-primary">Tips:</strong> Pastikan suhu dan kelembaban selalu dalam rentang ideal untuk hasil penetasan yang optimal!
+</p>
+</div>
+<div class="flex items-center gap-md">
+<a class="font-body-md text-body-md font-bold underline text-primary hover:opacity-90" href="#">Tips</a>
+<div class="relative w-16 h-10 overflow-hidden rounded-lg border border-outline-variant/10">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh5detfMPQr7U8wpNi8pYcQs0uJpyX8tVC7pT1LzwyIBXIFxUyE98be3A9GUoA04Z7HNue9j-IMEyDBb5Nes1DnE-waObTbC_9boG21dYHovvjFT7dzdhZdlofvmPJdg7IROHZmUuJKrfQzC1EzsfvKlzivjIruepWN-at-hl0u36zHjq0TKp1B5XZBO2kOqWMQ0DL9TovgpuHaCdBC9s4LzFT_rjIhIeNuvayD0BN2i0GVVsY5GzT8f67Yd1VcfdNc4d7sv560amm"/>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        // Simple micro-interaction for the logo
+        const logo = document.querySelector('aside img');
+        if(logo) {
+            logo.addEventListener('mouseenter', () => {
+                logo.style.transform = 'scale(1.1) rotate(5deg)';
+            });
+            logo.addEventListener('mouseleave', () => {
+                logo.style.transform = 'scale(1) rotate(0deg)';
+            });
+            logo.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        }
+
+        // Global State for Mode
+        let isManualMode = false;
+
+        function toggleGlobalMode(btn) {
+            const text = btn.querySelector('.mode-text');
+            const icon = btn.querySelector('.mode-icon');
+            
+            const heaterLabel = document.querySelector('.heater-mode-label');
+            const kipasLabel = document.querySelector('.kipas-mode-label');
+            
+            const heaterPid = document.getElementById('heater-pid-content');
+            const heaterManual = document.getElementById('heater-manual-content');
+            const kipasAuto = document.getElementById('kipas-auto-content');
+            const kipasManual = document.getElementById('kipas-manual-content');
+
+            if(text.innerText === 'AUTO') {
+                isManualMode = true;
+                text.innerText = 'MANUAL';
+                icon.innerText = 'settings_suggest';
+                btn.classList.add('bg-secondary-container/30');
+                btn.classList.remove('bg-surface-container');
+                
+                heaterLabel.innerText = 'Mode: Manual';
+                kipasLabel.innerText = 'Mode: Manual Override';
+                
+                heaterPid.classList.add('hidden');
+                heaterManual.classList.remove('hidden');
+                kipasAuto.classList.add('hidden');
+                kipasManual.classList.remove('hidden');
+            } else {
+                isManualMode = false;
+                text.innerText = 'AUTO';
+                icon.innerText = 'smart_toy';
+                btn.classList.remove('bg-secondary-container/30');
+                btn.classList.add('bg-surface-container');
+                
+                heaterLabel.innerText = 'Mode: PID Auto';
+                kipasLabel.innerText = 'Kecepatan: 80%';
+                
+                heaterPid.classList.remove('hidden');
+                heaterManual.classList.add('hidden');
+                kipasAuto.classList.remove('hidden');
+                kipasManual.classList.add('hidden');
+            }
+        }
+
+        // Panel Toggle Logic
+        function togglePanel(panelId) {
+            const panels = ['heater-panel', 'kipas-panel'];
+            panels.forEach(id => {
+                const p = document.getElementById(id);
+                if (id === panelId) {
+                    p.classList.toggle('hidden');
+                } else {
+                    p.classList.add('hidden');
+                }
+            });
+        }
+
+        // Close panels when clicking outside
+        document.addEventListener('click', (e) => {
+            const heaterCard = document.querySelector('[onclick="togglePanel(\'heater-panel\')"]');
+            const kipasCard = document.querySelector('[onclick="togglePanel(\'kipas-panel\')"]');
+            
+            if (!heaterCard.contains(e.target) && !kipasCard.contains(e.target)) {
+                document.getElementById('heater-panel').classList.add('hidden');
+                document.getElementById('kipas-panel').classList.add('hidden');
+            }
+        });
+
+        // Dashboard Number Counter Effect
+        const counters = document.querySelectorAll('.font-stat-value');
+        counters.forEach(counter => {
+            const currentVal = counter.innerText;
+            if(currentVal === 'ON' || currentVal === 'OFF') return;
+            const target = parseFloat(currentVal);
+            if(!isNaN(target)) {
+                let count = target - 5;
+                const updateCounter = () => {
+                    const increment = 0.1;
+                    if(count < target) {
+                        count += increment;
+                        counter.innerText = count.toFixed(1);
+                        setTimeout(updateCounter, 20);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCounter();
+            }
+        });
+    </script>
+</body></html>

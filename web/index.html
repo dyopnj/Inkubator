@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inkubator Control</title>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#111;color:#eee;padding:16px;max-width:600px;margin:auto}
+h1{font-size:1.4rem;margin-bottom:12px;color:#0ff;display:flex;align-items:center;gap:8px}
+.conn{font-size:.7rem;padding:2px 8px;border-radius:4px;margin-left:8px}
+.conn-ok{background:#0a3}
+.conn-err{background:#a33}
+.card{background:#1a1a2e;border-radius:10px;padding:14px;margin-bottom:12px}
+.card h2{font-size:1rem;color:#888;margin-bottom:8px}
+.row{display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem}
+.val{color:#0f0;font-weight:bold}
+.badge{display:inline-block;padding:2px 10px;border-radius:4px;font-size:.8rem;font-weight:bold}
+.badge-auto{background:#0a3;color:#fff}
+.badge-manual{background:#a30;color:#fff}
+.btn{padding:8px 16px;border:none;border-radius:6px;cursor:pointer;font-size:.9rem;margin:4px}
+.btn-primary{background:#06a;color:#fff}
+.btn-danger{background:#a33;color:#fff}
+input[type=number]{background:#222;border:1px solid #444;color:#fff;padding:4px 8px;border-radius:4px;width:80px;font-size:.9rem}
+label{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:.85rem}
+</style>
+</head>
+<body>
+
+<h1>&#x1F423; Inkubator <span id="connStatus" class="conn conn-err">offline</span></h1>
+
+<div class="card" id="statusCard">
+  <h2>Status</h2>
+  <div class="row"><span>Mode</span><span id="mode" class="badge badge-auto">--</span></div>
+  <div class="row"><span>Suhu</span><span id="suhu" class="val">-- °C</span></div>
+  <div class="row"><span>Kelembapan</span><span id="humi" class="val">-- %</span></div>
+  <div class="row"><span>Heater</span><span id="heater" class="val">-- %</span></div>
+  <div class="row"><span>Kipas</span><span id="kipas" class="val">-- %</span></div>
+  <div class="row"><span>Motor</span><span id="motor" class="val">--</span></div>
+</div>
+
+<div class="card">
+  <h2>Mode</h2>
+  <button class="btn btn-primary" onclick="pubMode('AUTO')">AUTO (PID)</button>
+  <button class="btn btn-danger" onclick="pubMode('MANUAL')">MANUAL</button>
+</div>
+
+<div class="card">
+  <h2>PID Heater &rarr; 37.5°C</h2>
+  <label>Kp <input type="number" id="h_kp" step="0.5" onchange="pubParam('h_kp',this.value)"></label>
+  <label>Ki <input type="number" id="h_ki" step="0.1" onchange="pubParam('h_ki',this.value)"></label>
+  <label>Kd <input type="number" id="h_kd" step="0.5" onchange="pubParam('h_kd',this.value)"></label>
+  <label>SP °C <input type="number" id="h_sp" step="0.5" onchange="pubParam('h_sp',this.value)"></label>
+</div>
+
+<div class="card">
+  <h2>PID Fan &rarr; 60% RH</h2>
+  <label>Kp <input type="number" id="f_kp" step="0.5" onchange="pubParam('f_kp',this.value)"></label>
+  <label>Ki <input type="number" id="f_ki" step="0.1" onchange="pubParam('f_ki',this.value)"></label>
+  <label>Kd <input type="number" id="f_kd" step="0.5" onchange="pubParam('f_kd',this.value)"></label>
+  <label>SP % <input type="number" id="f_sp" step="0.5" onchange="pubParam('f_sp',this.value)"></label>
+</div>
+
+<div class="card">
+  <h2>Manual</h2>
+  <label>Heater <input type="number" id="m_heater" min="0" max="100" step="5" onchange="pubParam('m_heater',this.value)"></label>
+  <label>Kipas <input type="number" id="m_fan" min="0" max="100" step="5" onchange="pubParam('m_fan',this.value)"></label>
+  <label>Motor <button class="btn btn-primary" onclick="pubParam('motor','ON')">NYALAKAN</button> <button class="btn btn-danger" onclick="pubParam('motor','OFF')">MATIKAN</button></label>
+</div>
+
+<script>
+// ===== SETTING: ganti IP ini sesuai IP laptop tempat Mosquitto =====
+const MQTT_WS = 'ws://127.0.0.1:9001';
+
+const client = mqtt.connect(MQTT_WS);
+
+client.on('connect', () => {
+  document.getElementById('connStatus').textContent = 'terhubung';
+  document.getElementById('connStatus').className = 'conn conn-ok';
+  client.subscribe('inkubator/status');
+});
+
+client.on('close', () => {
+  document.getElementById('connStatus').textContent = 'offline';
+  document.getElementById('connStatus').className = 'conn conn-err';
+});
+
+client.on('message', (topic, msg) => {
+  const s = JSON.parse(msg.toString());
+  document.getElementById('mode').textContent = s.mode;
+  document.getElementById('mode').className = 'badge ' + (s.mode === 'AUTO' ? 'badge-auto' : 'badge-manual');
+  document.getElementById('suhu').textContent = (s.suhu ?? '--') + ' °C';
+  document.getElementById('humi').textContent = (s.humi ?? '--') + ' %';
+  document.getElementById('heater').textContent = (s.heater ?? '--') + ' %';
+  document.getElementById('kipas').textContent = (s.kipas ?? '--') + ' %';
+  document.getElementById('motor').textContent = s.motor ?? '--';
+  if (s.pid_h) {
+    document.getElementById('h_kp').value = s.pid_h.kp;
+    document.getElementById('h_ki').value = s.pid_h.ki;
+    document.getElementById('h_kd').value = s.pid_h.kd;
+    document.getElementById('h_sp').value = s.pid_h.sp;
+  }
+  if (s.pid_f) {
+    document.getElementById('f_kp').value = s.pid_f.kp;
+    document.getElementById('f_ki').value = s.pid_f.ki;
+    document.getElementById('f_kd').value = s.pid_f.kd;
+    document.getElementById('f_sp').value = s.pid_f.sp;
+  }
+  if (s.manual) {
+    document.getElementById('m_heater').value = s.manual.heater;
+    document.getElementById('m_fan').value = s.manual.fan;
+  }
+});
+
+function pubParam(key, val) {
+  client.publish('inkubator/set/param', key + '=' + val);
+}
+
+function pubMode(mode) {
+  client.publish('inkubator/set/mode', mode);
+}
+</script>
+</body>
+</html>

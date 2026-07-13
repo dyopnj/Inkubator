@@ -1,0 +1,420 @@
+<!DOCTYPE html><html class="light" lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ChickHub - Riwayat Aktivitas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Geist for display, JetBrains Mono for data -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#dae2fd",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#5c4300",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary-container": "#6c5000",
+                        "primary": "#795900",
+                        "primary-container": "#fbc02d",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "secondary": "#565e74",
+                        "on-tertiary-fixed-variant": "#3a485c",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#515f74",
+                        "secondary-fixed": "#dae2fd",
+                        "surface": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed": "#ffdfa0",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed-dim": "#b9c7e0",
+                        "surface-tint": "#795900",
+                        "on-surface-variant": "#4f4633",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#d5e3fd",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#5c647a",
+                        "on-tertiary-fixed": "#0d1c2f",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed": "#261a00",
+                        "surface-dim": "#d8dadc",
+                        "outline": "#817661",
+                        "inverse-primary": "#f8bd2a",
+                        "background": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container": "#eceef0",
+                        "tertiary-container": "#bbcae3",
+                        "primary-fixed-dim": "#f8bd2a",
+                        "on-tertiary-container": "#47556a",
+                        "on-secondary-fixed": "#131b2e",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "outline-variant": "#d3c5ad",
+                        "inverse-surface": "#2d3133"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "lg": "24px",
+                        "margin": "24px",
+                        "xs": "4px",
+                        "xl": "40px",
+                        "md": "16px",
+                        "base": "4px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "data-display": ["JetBrains Mono"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "data-display": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Geist', sans-serif;
+            color: #191c1e;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-item {
+            background-color: #fbc02d;
+            color: #6c5000;
+            font-weight: 600;
+            border-radius: 0.5rem;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d3c5ad;
+        }
+        .table-row-hover:hover {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-hidden">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col p-md z-50">
+<div class="flex items-center gap-sm mb-xl">
+<img alt="ChickHub Logo" class="w-10 h-10 rounded-xl object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7Y56pAuhoCtUueXgWrOCYB1HLbIKNXqLKAMoD6-XuuO1XT-De3YM13BcxcGRkd_VaXsvkl1-rZKddPXmW-8b-nTrPJIT2hOSnLUBW6qO0TCNB4jD7wyCkyq7H_9Iot-qO4L8OhGMxvPEA3shZlIiVdPmHKMQOpXa1cbS6Dx9M22_ICDPfR-7JuGEptv-VoWlABlK7aZWCASHk2djyjoFdppJS5klnstvOO4XFHMnvHg310qAJaDK-M3tAkS2f-C0DoVmVeZn9ngpU">
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">ChickHub</h1>
+<p class="font-label-md text-[10px] text-on-surface-variant tracking-wider uppercase">Incubator Smart System</p>
+</div>
+</div>
+<nav class="flex-1 space-y-xs">
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 group active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-md text-body-md">Home</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-primary-container bg-primary-container font-semibold rounded-lg active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-body-md text-body-md">History</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 group active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<div class="flex items-center gap-sm p-sm bg-surface-container-low rounded-lg">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-xs">
+                    AD
+                </div>
+<div class="flex-1 overflow-hidden">
+<p class="font-body-md text-xs font-bold truncate">Admin Panel</p>
+<p class="text-[10px] text-on-surface-variant truncate">v2.4.0 Stable</p>
+</div>
+<span class="material-symbols-outlined text-sm text-on-surface-variant">logout</span>
+</div>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-lg z-40">
+<div class="flex items-center gap-md">
+<h2 class="font-headline-sm text-headline-sm font-black text-primary">History</h2>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<span class="font-label-md text-label-md text-on-surface-variant">LOG AKTIVITAS SISTEM</span>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer flex items-center gap-xs">
+<span class="material-symbols-outlined text-[20px]">sensors</span>
+<span class="font-label-md text-label-md">Sensor Status</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 h-screen flex flex-col bg-background">
+<div class="flex-1 p-lg overflow-y-auto custom-scrollbar">
+<!-- Filters and Search Section -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md mb-lg">
+<div class="flex flex-col md:flex-row gap-md items-start md:items-center">
+<!-- Search Bar -->
+<div class="relative flex-1 w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="Cari riwayat aktivitas..." type="text">
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-sm items-center overflow-x-auto pb-1 md:pb-0 w-full md:w-auto">
+<button class="px-md py-1.5 bg-primary text-on-primary font-body-md text-xs rounded-full border border-primary whitespace-nowrap">Semua</button>
+<button class="px-md py-1.5 bg-surface-container-low text-on-surface-variant font-body-md text-xs rounded-full border border-outline-variant hover:bg-surface-container-high transition-colors whitespace-nowrap">Suhu</button>
+<button class="px-md py-1.5 bg-surface-container-low text-on-surface-variant font-body-md text-xs rounded-full border border-outline-variant hover:bg-surface-container-high transition-colors whitespace-nowrap">Kelembaban</button>
+<button class="px-md py-1.5 bg-surface-container-low text-on-surface-variant font-body-md text-xs rounded-full border border-outline-variant hover:bg-surface-container-high transition-colors whitespace-nowrap">Rak Telur</button>
+<div class="h-6 w-[1px] bg-outline-variant mx-1 hidden md:block"></div>
+<button class="flex items-center gap-xs px-md py-1.5 bg-surface-container-low text-on-surface-variant font-body-md text-xs rounded-full border border-outline-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[14px]">filter_list</span>
+                            Filter Lanjut
+                        </button>
+</div>
+</div>
+</div>
+<!-- History Data Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Waktu</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Aktivitas</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Parameter</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="table-row-hover transition-colors">
+<td class="px-lg py-md whitespace-nowrap font-data-display text-xs">2023-10-27 14:30:05</td>
+<td class="px-lg py-md font-medium">Rotasi Rak Telur Otomatis</td>
+<td class="px-lg py-md">
+<span class="text-on-surface-variant">Sudut: 45°</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center gap-xs px-sm py-0.5 rounded bg-secondary-container text-on-secondary-container text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                        NORMAL
+                                    </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="table-row-hover transition-colors bg-error-container/5">
+<td class="px-lg py-md whitespace-nowrap font-data-display text-xs">2023-10-27 14:15:22</td>
+<td class="px-lg py-md font-medium">Peringatan Suhu Tinggi</td>
+<td class="px-lg py-md">
+<span class="text-error font-bold">39.2°C</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center gap-xs px-sm py-0.5 rounded bg-error-container text-on-error-container text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        WARNING
+                                    </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="table-row-hover transition-colors">
+<td class="px-lg py-md whitespace-nowrap font-data-display text-xs">2023-10-27 14:00:00</td>
+<td class="px-lg py-md font-medium">Pemeriksaan Kelembaban Berhasil</td>
+<td class="px-lg py-md">
+<span class="text-on-surface-variant">60% Rh</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center gap-xs px-sm py-0.5 rounded bg-secondary-container text-on-secondary-container text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                        NORMAL
+                                    </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="table-row-hover transition-colors">
+<td class="px-lg py-md whitespace-nowrap font-data-display text-xs">2023-10-27 13:45:10</td>
+<td class="px-lg py-md font-medium">Kipas Sirkulasi Aktif</td>
+<td class="px-lg py-md">
+<span class="text-on-surface-variant">Speed: High</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center gap-xs px-sm py-0.5 rounded bg-primary-container/30 text-on-primary-container text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                        ACTIVE
+                                    </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="table-row-hover transition-colors">
+<td class="px-lg py-md whitespace-nowrap font-data-display text-xs">2023-10-27 13:30:00</td>
+<td class="px-lg py-md font-medium">Kalibrasi Sensor Suhu</td>
+<td class="px-lg py-md">
+<span class="text-on-surface-variant">Offset: +0.2</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center gap-xs px-sm py-0.5 rounded bg-secondary-container text-on-secondary-container text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                        NORMAL
+                                    </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="table-row-hover transition-colors">
+<td class="px-lg py-md whitespace-nowrap font-data-display text-xs">2023-10-27 13:15:45</td>
+<td class="px-lg py-md font-medium">Pintu Inkubator Dibuka</td>
+<td class="px-lg py-md">
+<span class="text-on-surface-variant">Durasi: 15s</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center gap-xs px-sm py-0.5 rounded bg-primary-container/30 text-on-primary-container text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                        LOGGED
+                                    </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-lg py-md border-t border-outline-variant flex items-center justify-between bg-surface-container-lowest">
+<p class="font-body-md text-xs text-on-surface-variant">
+                        Menampilkan <span class="font-bold">1 - 6</span> dari <span class="font-bold">1,248</span> riwayat
+                    </p>
+<div class="flex items-center gap-sm">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-primary bg-primary text-on-primary font-bold text-xs">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low transition-colors font-bold text-xs">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low transition-colors font-bold text-xs">3</button>
+<span class="text-on-surface-variant font-bold text-xs">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low transition-colors font-bold text-xs">208</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Export Summary (Bento Widget Style) -->
+<div class="mt-lg grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="md:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col md:flex-row items-center gap-lg">
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-sm text-primary mb-xs">Export Laporan Berkala</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Dapatkan ringkasan riwayat inkubasi dalam format PDF atau CSV untuk analisis data mendalam di luar platform ChickHub.</p>
+</div>
+<div class="flex gap-sm w-full md:w-auto">
+<button class="flex-1 md:flex-initial flex items-center justify-center gap-sm bg-primary-container text-on-primary-container px-lg py-2 rounded-lg font-bold hover:brightness-95 transition-all">
+<span class="material-symbols-outlined">download</span>
+                            PDF
+                        </button>
+<button class="flex-1 md:flex-initial flex items-center justify-center gap-sm bg-surface-container-high text-on-surface-variant px-lg py-2 rounded-lg font-bold hover:bg-surface-container-highest transition-all border border-outline-variant">
+<span class="material-symbols-outlined">description</span>
+                            CSV
+                        </button>
+</div>
+</div>
+<div class="bg-primary text-on-primary rounded-xl p-lg flex flex-col justify-between relative overflow-hidden group">
+<div class="relative z-10">
+<p class="font-label-md text-xs opacity-80 uppercase tracking-tighter mb-base">Total Riwayat Terakhir</p>
+<h4 class="font-display-lg text-headline-lg">1,248</h4>
+</div>
+<div class="relative z-10 flex items-center gap-xs mt-sm">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-xs font-bold font-data-display">+124 Aktivitas Hari Ini</span>
+</div>
+<!-- Decorative Element -->
+<div class="absolute -right-4 -bottom-4 opacity-10 scale-150 transform transition-transform group-hover:rotate-12 duration-500">
+<span class="material-symbols-outlined text-[120px]">analytics</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.classList.add('scale-95');
+            });
+            el.addEventListener('mouseup', () => {
+                el.classList.remove('scale-95');
+            });
+            el.addEventListener('mouseleave', () => {
+                el.classList.remove('scale-95');
+            });
+        });
+
+        // Search highlight simulation
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body></html>
