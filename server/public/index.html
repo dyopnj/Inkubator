@@ -58,7 +58,7 @@
       <p style="font-size:14px;color:#4f4633;">Pantau dan kontrol inkubator telur Anda secara real-time.</p>
     </div>
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-      <div style="display:flex;align-items:center;gap:6px;background:rgba(251,192,45,0.2);padding:6px 14px;border-radius:999px;">
+      <div id="incubationBtn" style="display:flex;align-items:center;gap:6px;background:rgba(251,192,45,0.2);padding:6px 14px;border-radius:999px;cursor:pointer;" onclick="toggleIncubation()" title="Klik untuk mulai/reset inkubasi">
         <span class="material-symbols-outlined filled-icon" style="color:#795900;font-size:18px;">egg</span>
         <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#795900;">Inkubasi</div><div style="font-size:12px;font-weight:600;">Hari ke-<span id="inkubasiDay">—</span>/21</div></div>
       </div>

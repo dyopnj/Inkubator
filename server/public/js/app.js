@@ -45,6 +45,7 @@ function initDashboard() {
 
     // Set placeholders
     setDashboardData(null);
+    initIncubation();
     updateClock();
     setInterval(updateClock, 1000);
 }
@@ -314,6 +315,30 @@ function setInputVal(id, val) {
     }
 }
 
+// ===== Incubation Counter =====
+function initIncubation() {
+    const start = localStorage.getItem('chickhub_incub_start');
+    const dayEl = document.getElementById('inkubasiDay');
+    if (start && dayEl) {
+        const diff = Math.floor((Date.now() - parseInt(start)) / 86400000) + 1;
+        dayEl.textContent = Math.min(diff, 21);
+    }
+}
+
+function toggleIncubation() {
+    const start = localStorage.getItem('chickhub_incub_start');
+    const dayEl = document.getElementById('inkubasiDay');
+    if (!dayEl) return;
+
+    if (start) {
+        localStorage.removeItem('chickhub_incub_start');
+        dayEl.textContent = '—';
+    } else {
+        localStorage.setItem('chickhub_incub_start', Date.now().toString());
+        dayEl.textContent = '1';
+    }
+}
+
 // ===== Clock =====
 function updateClock() {
     const now = new Date();
@@ -326,6 +351,13 @@ function updateClock() {
         dateEl.textContent = now.toLocaleDateString('id-ID', {
             day: 'numeric', month: 'long', year: 'numeric'
         });
+    }
+    // Update incubation day
+    const start = localStorage.getItem('chickhub_incub_start');
+    const dayEl = document.getElementById('inkubasiDay');
+    if (start && dayEl && dayEl.textContent !== '—') {
+        const diff = Math.floor((Date.now() - parseInt(start)) / 86400000) + 1;
+        dayEl.textContent = Math.min(diff, 21);
     }
 }
 
