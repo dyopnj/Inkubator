@@ -53,7 +53,7 @@ DHT dht(DHTPIN, DHTTYPE);
 #define FAN_KICK_MS  250
 
 // ===================== MQTT =====================
-const char MQTT_HOST_DEFAULT[] = "192.168.254.102";
+const char MQTT_HOST_DEFAULT[] = "103.253.212.182";
 char mqtt_host[16];
 const int   MQTT_PORT = 1883;
 const char* MQTT_TOPIC_STATUS = "inkubator/status";
@@ -570,10 +570,7 @@ void setup() {
   strcpy(mqtt_host, MQTT_HOST_DEFAULT);
 
   WiFiManager wm;
-  WiFiManagerParameter mqtt_param("mqtt", "MQTT Server IP", mqtt_host, 16);
-  wm.addParameter(&mqtt_param);
   wm.autoConnect("Inkubator-IKI3B");
-  strcpy(mqtt_host, mqtt_param.getValue());
 
   Serial.print("WiFi "); Serial.print(WiFi.localIP());
   Serial.print(" MQTT "); Serial.println(mqtt_host);
