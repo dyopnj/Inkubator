@@ -71,7 +71,6 @@
       </div>
       <div style="flex:1;">
         <h3 style="font-size:20px;font-weight:700;" id="profileName"></h3>
-        <p style="font-size:14px;color:#4f4633;" id="profileEmail"></p>
         <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
           <button class="ch-btn ch-btn-primary" onclick="editProfile()" style="display:flex;align-items:center;gap:4px;text-transform:none;"><span class="material-symbols-outlined" style="font-size:16px;">edit</span> Edit Profile</button>
           <button class="ch-btn ch-btn-outline" onclick="alert('Fitur security dalam pengembangan.')">Security</button>
@@ -435,18 +434,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (d.ok) {
                     const dn = d.displayName || user.username;
                     document.getElementById('profileName').textContent = dn;
-                    document.getElementById('profileEmail').textContent = user.username + '@chickhub.local';
                     storeSet('displayName', dn);
                 }
             })
             .catch(() => {
                 const name = storeGet('displayName', user.username || 'User');
                 document.getElementById('profileName').textContent = name;
-                document.getElementById('profileEmail').textContent = (user.username || 'user') + '@chickhub.local';
             });
     } else {
         document.getElementById('profileName').textContent = 'User';
-        document.getElementById('profileEmail').textContent = 'user@chickhub.local';
     }
 
     if (avatar) {
