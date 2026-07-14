@@ -570,6 +570,7 @@ void setup() {
   strcpy(mqtt_host, MQTT_HOST_DEFAULT);
 
   WiFiManager wm;
+  wm.setTimeout(10);
   wm.autoConnect("Inkubator-IKI3B");
 
   Serial.print("WiFi "); Serial.print(WiFi.localIP());
