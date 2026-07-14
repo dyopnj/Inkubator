@@ -137,7 +137,7 @@ static void applyMotor() {
   digitalWrite(RELAY_PIN, motorOn ? HIGH : LOW);
 }
 
-// Jadwal motor AUTO: 6h nyala, 6h mati, mulai 07:00 nyala
+// Jadwal motor AUTO: tiap 6 jam, nyala 5 menit, mulai 07:00
 static void updateMotorAuto() {
   if (controlMode != AUTO) return;
   time_t t; time(&t);
@@ -146,8 +146,8 @@ static void updateMotorAuto() {
   int since700 = (ti->tm_hour - 7) * 60 + ti->tm_min;
   bool on = false;
   if (since700 >= 0) {
-    int block = (since700 / 360) % 2; // 0=ON,1=OFF
-    on = (block == 0);
+    int pos = since700 % 360; // posisi dalam cycle 6 jam
+    on = (pos < 5);           // 5 menit pertama nyala
   }
   if (on != motorOn) { motorOn = on; applyMotor(); markUiDirty(); }
 }
