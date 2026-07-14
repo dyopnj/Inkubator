@@ -425,10 +425,30 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateClock, 1000);
 
     const user = storeGet('user', {});
-    const name = storeGet('displayName', user.username || 'User');
     const avatar = storeGet('avatar', null);
-    document.getElementById('profileName').textContent = name;
-    document.getElementById('profileEmail').textContent = (user.username || 'user') + '@chickhub.local';
+
+    // Fetch profile dari server
+    if (user.username) {
+        fetch('/api/profile?username=' + encodeURIComponent(user.username))
+            .then(r => r.json())
+            .then(d => {
+                if (d.ok) {
+                    const dn = d.displayName || user.username;
+                    document.getElementById('profileName').textContent = dn;
+                    document.getElementById('profileEmail').textContent = user.username + '@chickhub.local';
+                    storeSet('displayName', dn);
+                }
+            })
+            .catch(() => {
+                const name = storeGet('displayName', user.username || 'User');
+                document.getElementById('profileName').textContent = name;
+                document.getElementById('profileEmail').textContent = (user.username || 'user') + '@chickhub.local';
+            });
+    } else {
+        document.getElementById('profileName').textContent = 'User';
+        document.getElementById('profileEmail').textContent = 'user@chickhub.local';
+    }
+
     if (avatar) {
         document.getElementById('mainProfileAvatar').src = avatar;
         document.getElementById('profileAvatar').src = avatar;

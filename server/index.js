@@ -63,9 +63,11 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
+    display_name TEXT DEFAULT '',
     created_at TEXT DEFAULT (datetime('now','localtime'))
   );
 `);
+try { db.exec("ALTER TABLE users ADD COLUMN display_name TEXT DEFAULT ''"); } catch {}
 
 // Seed default admin
 const hash = crypto.createHash('sha256').update('admin').digest('hex');
@@ -95,7 +97,7 @@ app.post('/api/login', (req, res) => {
     
     db.prepare("INSERT INTO history (aktivitas, detail) VALUES ('Login', ?)").run('User ' + username + ' login');
     broadcast({ aktivitas: 'Login', detail: 'User ' + username + ' login', suhu: null });
-    res.json({ ok: true, username: user.username });
+    res.json({ ok: true, username: user.username, displayName: user.display_name || user.username });
 });
 
 app.post('/api/register', (req, res) => {
@@ -132,11 +134,20 @@ app.post('/api/profile/update', (req, res) => {
         db.prepare('UPDATE users SET password = ? WHERE username = ?').run(newHash, username);
     }
 
-    // Update display name in a separate profile table or just return ok
-    // For now, store displayName in localStorage on client side
-    
+    if (displayName) {
+        db.prepare('UPDATE users SET display_name = ? WHERE username = ?').run(displayName, username);
+    }
+
     db.prepare("INSERT INTO history (aktivitas, detail) VALUES ('Profile', ?)").run('User ' + username + ' updated profile');
     res.json({ ok: true, username, displayName: displayName || username });
+});
+
+app.get('/api/profile', (req, res) => {
+    const { username } = req.query;
+    if (!username) return res.status(400).json({ error: 'Username diperlukan' });
+    const user = db.prepare('SELECT username, display_name FROM users WHERE username = ?').get(username);
+    if (!user) return res.status(404).json({ error: 'User tidak ditemukan' });
+    res.json({ ok: true, username: user.username, displayName: user.display_name || user.username });
 });
 
 app.get('/api/status', (req, res) => {
