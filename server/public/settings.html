@@ -65,10 +65,7 @@
   <div class="ch-grid-12">
     <!-- Profile -->
     <div class="ch-col-span-8 ch-bento" style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-      <div style="position:relative;">
-        <img id="mainProfileAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkB1MyTNuAP7kz7F6ZFTqpL8ki3XBumOzgKhM4gyB1iq3SaTP4TQXPFAmEx4D-65l1_Y3FGOE-JHJJbWVyoQfR9uER5g_Y02lSFWrF5T9TAfdGQbct5MoxLR93m5S0yal306p4-DJwDu2_Am5Ek96LksnzOsIzJSWeMvrxb1_htXs1KIPVf-k3S5DiuHRIOSyBjjWw0C3IU1XPNI0vVaVHaDjLFybepkbaZa65iYBM_lwCMZ3CRhN1Vd7s7zAw2p7mAH0zbqQV46jo" alt="Profile" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-        <button style="position:absolute;bottom:0;right:0;background:#fbc02d;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="font-size:16px;">photo_camera</span></button>
-      </div>
+      <div style="width:100px;height:100px;border-radius:50%;background:#795900;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);"><span class="material-symbols-outlined" style="font-size:48px;color:#fbc02d;">person</span></div>
       <div style="flex:1;">
         <h3 style="font-size:20px;font-weight:700;" id="profileName"></h3>
         <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
@@ -201,13 +198,7 @@
     </div>
 
     <div style="text-align:center;margin-bottom:20px;">
-      <div style="position:relative;display:inline-block;">
-        <img id="profileAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkB1MyTNuAP7kz7F6ZFTqpL8ki3XBumOzgKhM4gyB1iq3SaTP4TQXPFAmEx4D-65l1_Y3FGOE-JHJJbWVyoQfR9uER5g_Y02lSFWrF5T9TAfdGQbct5MoxLR93m5S0yal306p4-DJwDu2_Am5Ek96LksnzOsIzJSWeMvrxb1_htXs1KIPVf-k3S5DiuHRIOSyBjjWw0C3IU1XPNI0vVaVHaDjLFybepkbaZa65iYBM_lwCMZ3CRhN1Vd7s7zAw2p7mAH0zbqQV46jo" alt="Avatar" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-        <button onclick="document.getElementById('avatarInput').click()" style="position:absolute;bottom:0;right:0;background:#fbc02d;border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
-          <span class="material-symbols-outlined" style="font-size:16px;color:#6c5000;">photo_camera</span>
-        </button>
-        <input id="avatarInput" type="file" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
-      </div>
+      <div style="width:80px;height:80px;border-radius:50%;background:#795900;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin:0 auto;"><span class="material-symbols-outlined" style="font-size:40px;color:#fbc02d;">person</span></div>
     </div>
 
     <div style="margin-bottom:16px;">
@@ -275,54 +266,6 @@
 let cropFile = null, cropX = 0, cropY = 0, cropZoom = 1;
 let isDragging = false, dragStartX, dragStartY;
 
-function handleAvatarUpload(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    cropFile = file;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-        const img = document.getElementById('cropImage');
-        img.src = ev.target.result;
-        img.onload = () => {
-            cropX = 0; cropY = 0; cropZoom = 1;
-            document.getElementById('zoomSlider').value = 1;
-            updateZoom(1);
-            document.getElementById('cropModal').style.display = 'flex';
-        };
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
-}
-
-function updateZoom(val) {
-    cropZoom = parseFloat(val);
-    const img = document.getElementById('cropImage');
-    img.style.transform = `translate(calc(-50% + ${cropX}px), calc(-50% + ${cropY}px)) scale(${cropZoom})`;
-}
-
-function closeCropModal() {
-    document.getElementById('cropModal').style.display = 'none';
-    cropFile = null;
-}
-
-function applyCrop() {
-    const img = document.getElementById('cropImage');
-    const container = document.getElementById('cropContainer');
-    const canvas = document.createElement('canvas');
-    const cw = container.clientWidth, ch = container.clientHeight;
-    const cropSize = Math.min(cw, ch);
-    canvas.width = cropSize; canvas.height = cropSize;
-    const ctx = canvas.getContext('2d');
-    const sx = (cw - cropSize) / 2, sy = (ch - cropSize) / 2;
-    ctx.drawImage(img, sx, sy, cropSize, cropSize, 0, 0, cropSize, cropSize);
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
-    document.getElementById('profileAvatar').src = dataUrl;
-    const mainAvatar = document.querySelector('#mainProfileAvatar');
-    if (mainAvatar) mainAvatar.src = dataUrl;
-    storeSet('avatar', dataUrl);
-    closeCropModal();
-}
-
 // Drag & zoom init
 document.addEventListener('DOMContentLoaded', () => {
     const img = document.getElementById('cropImage');
@@ -357,7 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function openProfileModal() {
     const user = storeGet('user', {});
     const name = storeGet('displayName', user.username || 'User');
-    const avatar = storeGet('avatar', null);
     document.getElementById('editDisplayName').value = name;
     document.getElementById('editUsername').value = user.username || '';
     document.getElementById('editCurPass').value = '';
@@ -365,8 +307,6 @@ function openProfileModal() {
     document.getElementById('editConfirmPass').value = '';
     document.getElementById('profileError').textContent = '';
     document.getElementById('profileSuccess').textContent = '';
-    // Load saved avatar
-    if (avatar) document.getElementById('profileAvatar').src = avatar;
     document.getElementById('profileModal').style.display = 'flex';
 }
 
@@ -445,10 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('profileName').textContent = 'User';
     }
 
-    if (avatar) {
-        document.getElementById('mainProfileAvatar').src = avatar;
-        document.getElementById('profileAvatar').src = avatar;
-    }
+
 
     const savedPid = storeGet('pidDefaults', null);
     if (savedPid) { Object.keys(savedPid).forEach(k => { const el = document.getElementById('pid'+k.charAt(0).toUpperCase()+k.slice(1)); if(el) el.value = savedPid[k]; }); }
