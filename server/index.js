@@ -252,9 +252,9 @@ mqttClient.on('message', (topic, message) => {
             // Broadcast ke semua WebSocket client
             broadcast(data);
 
-            // Simpan ke database tiap 5 menit
+            // Simpan ke database tiap 1 menit (untuk CSV)
             const now = Date.now();
-            if (now - lastSensorLog >= 300000) {
+            if (now - lastSensorLog >= 60000) {
                 lastSensorLog = now;
                 insertStmt.run(
                     data.suhu ?? null,

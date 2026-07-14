@@ -208,8 +208,11 @@ function applyFilters() {
 }
 
 function renderPage(data) {
-    const list = data || allHistory;
+    // Display: sampling tiap 5 menit. CSV: export full data (allHistory langsung)
+    const raw = data || allHistory;
+    const list = data ? raw : raw.filter((_, i) => i % 5 === 0);
     const total = list.length;
+    const totalAll = allHistory.length;
     const tp = Math.ceil(total/perPage)||1;
     if (currentPage > tp) currentPage = tp;
     const start = (currentPage-1)*perPage;
@@ -231,12 +234,12 @@ function renderPage(data) {
         }).join('');
     }
 
-    document.querySelector('.page-info').innerHTML = total ? `Menampilkan <strong>${start+1}-${Math.min(start+perPage,total)}</strong> dari <strong>${total.toLocaleString()}</strong> riwayat` : 'Belum ada data';
+    document.querySelector('.page-info').innerHTML = totalAll ? `Menampilkan <strong>${start+1}-${Math.min(start+perPage,total)}</strong> dari <strong>${totalAll.toLocaleString()}</strong> riwayat` : 'Belum ada data';
     document.getElementById('pageInfo').textContent = currentPage;
     document.getElementById('prevBtn').style.opacity = currentPage<=1 ? '.5' : '1';
     document.getElementById('nextBtn').style.opacity = currentPage>=tp ? '.5' : '1';
-    document.getElementById('totalRecords').textContent = total.toLocaleString();
-    document.getElementById('todayRecords').textContent = total+' Aktivitas';
+    document.getElementById('totalRecords').textContent = totalAll.toLocaleString();
+    document.getElementById('todayRecords').textContent = totalAll+' Aktivitas';
 }
 
 function nextPage() { if (currentPage < Math.ceil(allHistory.length/perPage)) { currentPage++; applyFilters(); } }
