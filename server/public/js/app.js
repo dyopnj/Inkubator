@@ -140,6 +140,26 @@ function setDashboardData(data) {
     }
 }
 
+// Clear dashboard saat koneksi putus
+function clearDashboardData() {
+    setText('suhuDisplay', '--');
+    setText('humiDisplay', '--');
+    setText('heaterDisplay', '--');
+    setText('fanStatus', 'OFF');
+    const bar = document.getElementById('heaterBar');
+    if (bar) bar.style.width = '0%';
+    const fanSt = document.getElementById('fanStatus');
+    if (fanSt) { fanSt.textContent = 'OFF'; fanSt.className = 'font-stat-value text-stat-value text-gray-400'; }
+    const motorEl = document.getElementById('motorDisplay');
+    if (motorEl) { motorEl.textContent = 'OFF'; motorEl.style.color = '#aaa'; }
+    setText('suhuBadge', '');
+    setText('humiBadge', '');
+    const sBadge = document.getElementById('suhuBadge');
+    if (sBadge) { sBadge.innerHTML = '● —'; sBadge.className = 'ch-badge ch-badge-normal'; }
+    const hBadge = document.getElementById('humiBadge');
+    if (hBadge) { hBadge.innerHTML = '● —'; hBadge.className = 'ch-badge ch-badge-normal'; }
+}
+
 // ===== History Page =====
 let historyData = [];
 let historyPage = 1;
@@ -584,6 +604,9 @@ document.addEventListener('DOMContentLoaded', () => {
             conn.textContent = connected ? 'terhubung' : 'offline';
             conn.className = 'conn ' + (connected ? 'conn-ok' : 'conn-err');
         }
+        const mqttSt = document.getElementById('mqttStatus');
+        if (mqttSt) mqttSt.textContent = connected ? 'Connected' : 'Offline';
+        if (!connected) clearDashboardData();
     });
 
     // Close panels on outside click
