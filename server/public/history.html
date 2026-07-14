@@ -105,21 +105,14 @@
   </div>
 
   <!-- Summary -->
-  <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:20px;">
+  <div style="margin-top:20px;">
     <div class="ch-bento" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
       <div><h3 style="font-size:18px;font-weight:600;color:#795900;">Export Laporan</h3><p style="font-size:14px;color:#4f4633;">Download riwayat dalam format CSV.</p></div>
       <button class="ch-btn ch-btn-primary" onclick="exportCSV()" style="display:flex;align-items:center;gap:6px;">
         <span class="material-symbols-outlined" style="font-size:16px;">download</span> CSV
       </button>
     </div>
-    <div class="ch-bento" style="background:#795900;color:#fff;border-color:#795900;position:relative;overflow:hidden;">
-      <div style="position:relative;z-index:1;">
-        <p style="font-size:10px;opacity:.8;text-transform:uppercase;font-weight:700;">Total Riwayat</p>
-        <h4 style="font-size:32px;font-weight:700;" id="totalRecords">0</h4>
-        <p style="font-size:11px;margin-top:4px;"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">trending_up</span> <span id="todayRecords">0 Aktivitas</span></p>
-      </div>
-      <span class="material-symbols-outlined" style="position:absolute;right:-10px;bottom:-10px;font-size:100px;opacity:.1;">analytics</span>
-    </div>
+
   </div>
 </main>
 
@@ -141,26 +134,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (conn) conn.textContent = ChickMQTT.isConnected() ? 'Connected' : 'Offline';
     });
     ChickMQTT.onStatus((data) => {
-        if (data.suhu != null || data._history || data.aktivitas) {
-            if (data._history) {
-                allHistory = data._history;
-            } else if (data.aktivitas) {
-                allHistory.unshift({
-                    timestamp: new Date().toLocaleString('id-ID'),
-                    aktivitas: data.aktivitas,
-                    suhu: data.suhu, humi: data.humi,
-                    detail: data.detail || ''
-                });
-                if (allHistory.length > 500) allHistory.pop();
-            } else {
-                allHistory.unshift({
-                    timestamp: new Date().toLocaleString('id-ID'),
-                    aktivitas: 'Monitoring',
-                    suhu: data.suhu, humi: data.humi,
-                    detail: 'Suhu: ' + fmt(data.suhu, '°C', 1) + ' / Hum: ' + fmt(data.humi, '%', 0)
-                });
-                if (allHistory.length > 500) allHistory.pop();
-            }
+        if (data._history) {
+            allHistory = data._history;
+            renderPage();
+        } else if (data.aktivitas) {
+            allHistory.unshift({
+                timestamp: new Date().toLocaleString('id-ID'),
+                aktivitas: data.aktivitas,
+                suhu: data.suhu, humi: data.humi,
+                detail: data.detail || ''
+            });
+            if (allHistory.length > 500) allHistory.pop();
             renderPage();
         }
     });
@@ -238,8 +222,7 @@ function renderPage(data) {
     document.getElementById('pageInfo').textContent = currentPage;
     document.getElementById('prevBtn').style.opacity = currentPage<=1 ? '.5' : '1';
     document.getElementById('nextBtn').style.opacity = currentPage>=tp ? '.5' : '1';
-    document.getElementById('totalRecords').textContent = totalAll.toLocaleString();
-    document.getElementById('todayRecords').textContent = totalAll+' Aktivitas';
+
 }
 
 function nextPage() { if (currentPage < Math.ceil(allHistory.length/perPage)) { currentPage++; applyFilters(); } }
