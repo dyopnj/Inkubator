@@ -147,7 +147,7 @@ static void updateMotorAuto() {
   bool on = false;
   if (since700 >= 0) {
     int pos = since700 % 360; // posisi dalam cycle 6 jam
-    on = (pos < 5);           // 5 menit pertama nyala
+    on = (pos < 2);           // 2 menit pertama nyala
   }
   if (on != motorOn) { motorOn = on; applyMotor(); markUiDirty(); }
 }
